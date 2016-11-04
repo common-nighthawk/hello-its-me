@@ -1,16 +1,20 @@
 package main
 
 import (
+  "figure"
   "fmt"
   "net/http"
 )
 
 func main() {
-  http.HandleFunc("/", splash)
+  http.HandleFunc("/", landing)
   http.ListenAndServe(":8080", nil)
 }
 
 
-func splash(w http.ResponseWriter, r *http.Request) {
-  fmt.Fprintf(w, "Hello, it's me")
+func landing(w http.ResponseWriter, r *http.Request) {
+  welcome := figure.NewFigure("Hello, It's Me", "puffy")
+  for _, row := range welcome.Rowify() {
+    fmt.Fprintf(w, "%v\n", row)
+  }
 }
