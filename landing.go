@@ -23,11 +23,9 @@ const (
 func landing(w http.ResponseWriter, r *http.Request) {
   fmt.Fprint(w, landingTop)
 
-  welcome := figure.NewFigure("Hello, It's Me", "puffy")
   fmt.Fprint(w, "<pre class=\"figlet\">")
-  for _, row := range welcome.Rowify() {
-    fmt.Fprintf(w, "%v\n", row)
-  }
+  welcome := figure.NewFigure("Hello, It's Me", "puffy")
+  figure.Write(w, welcome)
   fmt.Fprint(w, "</pre>")
 
   fmt.Fprint(w, "<a href=\"/login\">Log In</a>")

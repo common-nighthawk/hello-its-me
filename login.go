@@ -11,6 +11,7 @@ const (
       <html>
         <head>
           <style>
+            .error { color: red; }
           </style>
         </head>
         <title>Hello, It's Me</title>
