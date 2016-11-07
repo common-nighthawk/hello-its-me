@@ -8,9 +8,8 @@ import (
 )
 
 const (
-    pageBottom =
-        `</body>
-      </html>`
+    pageBottom = `</body> </html>`
+    errorMsg = `<p class="error">%s</p>`
 )
 
 var db *sql.DB
@@ -37,6 +36,7 @@ func main() {
   http.HandleFunc("/signup", signup)
   http.HandleFunc("/create", create)
   http.HandleFunc("/login", login)
+  http.HandleFunc("/session", session)
   http.ListenAndServe(":8080", nil)
 }
 

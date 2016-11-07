@@ -6,10 +6,6 @@ import(
   "unicode/utf8"
 )
 
-const (
-    errorMsg = `<p class="error">%s</p>`
-)
-
 func create(w http.ResponseWriter, r *http.Request) {
   var err error
 
@@ -40,6 +36,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
   if err != nil {
     http.Error(w, http.StatusText(500), 500)
+    return
   }
   http.Redirect(w, r, "/", http.StatusFound)
 }
