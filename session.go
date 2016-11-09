@@ -4,6 +4,8 @@ import(
   "database/sql"
   "fmt"
   "net/http"
+  "./models"
+  "./templates"
   "time"
 )
 
@@ -15,20 +17,21 @@ func session(w http.ResponseWriter, r *http.Request) {
 
   row := db.QueryRow("SELECT * FROM users WHERE username = $1", username)
 
-  user := new(User)
-  err = row.Scan(&user.username, &user.password)
+  user := new(models.User)
+  err = row.Scan(&user.Username, &user.Password)
 
   userError, msg := false, ""
   if err == sql.ErrNoRows {
     userError, msg = true, "No account with that username"
-  } else if password != user.password {
+  } else if password != user.Password {
     userError, msg = true, "Incorrect password"
   }
 
   if userError {
-    fmt.Fprint(w, loginTop)
-    fmt.Fprintf(w, errorMsg, msg)
-    fmt.Fprint(w, loginForm, pageBottom)
+    fmt.Fprint(w, templates.HTMLTop(templates.Style("error")))
+    fmt.Fprint(w, templates.HTMLError(msg))
+    fmt.Fprint(w, templates.LoginForm)
+    fmt.Fprint(w, templates.HTMLBottom())
     return
   }
 
@@ -39,7 +42,7 @@ func session(w http.ResponseWriter, r *http.Request) {
 
   // TODO: make secure
   expiration := time.Now().Add(365 * 24 * time.Hour)
-  cookie := http.Cookie{Name: "username", Value: user.username, Expires: expiration}
+  cookie := http.Cookie{Name: "username", Value: user.Username, Expires: expiration}
   http.SetCookie(w, &cookie)
-  http.Redirect(w, r, "/", http.StatusFound)
+  http.Redirect(w, r, "/actions", http.StatusFound)
 }

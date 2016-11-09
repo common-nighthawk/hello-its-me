@@ -4,6 +4,7 @@ import(
   "fmt"
   "net/http"
   "unicode/utf8"
+  "./templates"
 )
 
 func create(w http.ResponseWriter, r *http.Request) {
@@ -25,9 +26,10 @@ func create(w http.ResponseWriter, r *http.Request) {
   }
 
   if userError {
-    fmt.Fprint(w, signupTop)
-    fmt.Fprintf(w, errorMsg, msg)
-    fmt.Fprint(w, signupForm, pageBottom)
+    fmt.Fprint(w, templates.HTMLTop(templates.Style("error")))
+    fmt.Fprint(w, templates.HTMLError(msg))
+    fmt.Fprint(w, templates.SignupForm)
+    fmt.Fprint(w, templates.HTMLBottom())
     return
   }
 
@@ -38,5 +40,5 @@ func create(w http.ResponseWriter, r *http.Request) {
     http.Error(w, http.StatusText(500), 500)
     return
   }
-  http.Redirect(w, r, "/", http.StatusFound)
+  http.Redirect(w, r, "/actions", http.StatusCreated)
 }

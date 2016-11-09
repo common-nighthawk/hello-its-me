@@ -1,38 +1,18 @@
 package main
 
 import (
-  "net/http"
-  "fmt"
   "figure"
-)
-
-const (
-    landingTop =
-    `<!DOCTYPE HTML>
-      <html>
-        <head>
-          <style>
-            body { text-align: center; }
-            a { margin: 14px; }
-          </style>
-        </head>
-        <title>Hello, It's Me</title>
-        <body>`
+  "fmt"
+  "net/http"
+  "./templates"
 )
 
 func landing(w http.ResponseWriter, r *http.Request) {
-  cookie, _ := r.Cookie("username")
-  fmt.Println(cookie)
-
-  fmt.Fprint(w, landingTop)
-
+  fmt.Fprint(w, templates.HTMLTop(templates.Style("centered")))
   fmt.Fprint(w, "<pre class=\"figlet\">")
-  welcome := figure.NewFigure("Hello, It's Me", "puffy")
-  figure.Write(w, welcome)
+  figure.Write(w, figure.NewFigure("Hello, It's Me", "puffy"))
   fmt.Fprint(w, "</pre>")
-
   fmt.Fprint(w, "<a href=\"/login\">Log In</a>")
   fmt.Fprint(w, "<a href=\"/signup\">Sign Up</a>")
-
-  fmt.Fprint(w, pageBottom)
+  fmt.Fprint(w, templates.HTMLBottom())
 }
