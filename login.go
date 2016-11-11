@@ -1,9 +1,9 @@
 package main
 
 import (
+  "./templates"
   "fmt"
   "net/http"
-  "./templates"
 )
 
 func login(w http.ResponseWriter, r *http.Request) {

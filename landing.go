@@ -1,10 +1,10 @@
 package main
 
 import (
-  "figure"
+  "./templates"
   "fmt"
   "net/http"
-  "./templates"
+  "github.com/common-nighthawk/go-figure"
 )
 
 func landing(w http.ResponseWriter, r *http.Request) {

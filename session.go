@@ -1,11 +1,11 @@
 package main
 
 import(
+  "./models"
+  "./templates"
   "database/sql"
   "fmt"
   "net/http"
-  "./models"
-  "./templates"
   "time"
 )
 

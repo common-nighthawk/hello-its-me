@@ -1,11 +1,11 @@
 package main
 
 import(
-  "fmt"
-  "figure"
   "./models"
-  "net/http"
   "./templates"
+  "fmt"
+  "net/http"
+  "github.com/common-nighthawk/go-figure"
 )
 
 func actions(w http.ResponseWriter, r *http.Request) {

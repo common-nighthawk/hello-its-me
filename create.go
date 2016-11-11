@@ -1,10 +1,10 @@
 package main
 
 import(
+  "./templates"
   "fmt"
   "net/http"
   "unicode/utf8"
-  "./templates"
 )
 
 func create(w http.ResponseWriter, r *http.Request) {

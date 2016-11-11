@@ -1,11 +1,11 @@
 package main
 
 import (
-  _ "github.com/lib/pq"
   "fmt"
   "database/sql"
   "log"
   "net/http"
+  _ "github.com/lib/pq"
 )
 
 const(
