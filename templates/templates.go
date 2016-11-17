@@ -1,6 +1,9 @@
 package templates
 
-import("fmt")
+import(
+  "fmt"
+  "../models"
+)
 
 const(
   SignupForm =
@@ -34,6 +37,12 @@ func HTMLBottom() string {
 
 func HTMLError(msg string) string {
   return fmt.Sprintf(`<p class="error">%s</p>`, msg)
+}
+
+func AudioPlayer(msg *models.Message) string {
+  return fmt.Sprintf(`<audio controls>
+                        <source src="assets/messages/%s" type="audio/mpeg">
+                      </audio>`, msg.Path)
 }
 
 func Style(style string) string {

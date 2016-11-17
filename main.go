@@ -12,6 +12,7 @@ const(
   dbuser = "Daniel"
   dbname = "hello-its-me"
   sslmode = "disable"
+  fileServerDir = "/Users/Daniel/Documents/go-workspace/src/hello-its-me/assets"
 )
 
 var db *sql.DB
@@ -33,5 +34,10 @@ func main() {
   http.HandleFunc("/login", login)
   http.HandleFunc("/session", session)
   http.HandleFunc("/actions", actions)
+  http.HandleFunc("/messages", messages)
+
+  fileServer := http.FileServer(http.Dir(fileServerDir))
+  http.Handle("/assets/", http.StripPrefix("/assets/", fileServer))
+
   http.ListenAndServe(":8080", nil)
 }

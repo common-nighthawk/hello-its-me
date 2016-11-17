@@ -18,7 +18,7 @@ func session(w http.ResponseWriter, r *http.Request) {
   row := db.QueryRow("SELECT * FROM users WHERE username = $1", username)
 
   user := new(models.User)
-  err = row.Scan(&user.Username, &user.Password)
+  err = row.Scan(&user.Username, &user.Password, &user.UUID)
 
   userError, msg := false, ""
   if err == sql.ErrNoRows {
