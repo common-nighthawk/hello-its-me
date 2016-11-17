@@ -1,9 +1,11 @@
 package main
 
 import(
+  "./models"
   "./templates"
   "fmt"
   "net/http"
+  "time"
   "unicode/utf8"
 )
 
@@ -33,12 +35,17 @@ func create(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  result, err := db.Exec("INSERT INTO users (username, password) VALUES($1, $2)", username, password)
+  uuid, err := models.GenerateUUID()
+  result, err := db.Exec("INSERT INTO users (username, password, uuid) VALUES($1, $2, $3)", username, password, uuid)
   _, err = result.RowsAffected()
 
   if err != nil {
     http.Error(w, http.StatusText(500), 500)
     return
   }
-  http.Redirect(w, r, "/actions", http.StatusCreated)
+
+  expiration := time.Now().Add(365 * 24 * time.Hour)
+  cookie := http.Cookie{Name: "user", Value: uuid, Expires: expiration}
+  http.SetCookie(w, &cookie)
+  http.Redirect(w, r, "/actions", http.StatusFound)
 }

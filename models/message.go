@@ -1,7 +1,7 @@
 package models
 
 type Message struct {
-  SenderUUID string
+  SenderUsername string
   ReceiverUUID string
   Path string
 }

@@ -42,7 +42,7 @@ func session(w http.ResponseWriter, r *http.Request) {
 
   // TODO: make secure
   expiration := time.Now().Add(365 * 24 * time.Hour)
-  cookie := http.Cookie{Name: "username", Value: user.Username, Expires: expiration}
+  cookie := http.Cookie{Name: "user", Value: user.UUID, Expires: expiration}
   http.SetCookie(w, &cookie)
   http.Redirect(w, r, "/actions", http.StatusFound)
 }

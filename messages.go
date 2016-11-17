@@ -25,7 +25,7 @@ func messages(w http.ResponseWriter, r *http.Request) {
   }
   fmt.Fprintf(w, "You currently have %d messages. <br><br>", len(messages))
   for _, message  := range messages {
-    fmt.Fprint(w, "From: ", message.SenderUUID, "<br>")
+    fmt.Fprint(w, "From: ", message.SenderUsername, "<br>")
     fmt.Fprint(w, templates.AudioPlayer(message), "<br>")
   }
 
