@@ -6,6 +6,7 @@ import(
 )
 
 const(
+  Title = "Hello, It's Me"
   SignupForm =
    `<form action="/create" method="POST">
       <label for="username">Username:</label>
@@ -27,12 +28,17 @@ const(
 )
 
 func HTMLTop(style string) string {
-  return fmt.Sprintf(`<!DOCTYPE HTML><html><head><style>%s</style></head>
-                      <title>%s</title><body>`, style, "Hello, It's Me")
+  return fmt.Sprintf(`<!DOCTYPE HTML><html>
+                      <head><style>%s</style></head>
+                      <title>%s</title><body id='body'>`, style, Title)
 }
 
 func HTMLBottom() string {
   return `</body></html>`
+}
+
+func HTMLScript(script string) string {
+  return fmt.Sprintf(`<script>%s</script>`, script)
 }
 
 func HTMLError(msg string) string {
@@ -43,14 +49,4 @@ func AudioPlayer(msg *models.Message) string {
   return fmt.Sprintf(`<audio controls>
                         <source src="assets/messages/%s" type="audio/mpeg">
                       </audio>`, msg.Path)
-}
-
-func Style(style string) string {
-  switch style {
-  case "centered":
-    return "body { text-align: center; } a { margin: 14px; }"
-  case "error":
-    return ".error { color: red; }"
-  }
-  panic ("invalid style option")
 }
