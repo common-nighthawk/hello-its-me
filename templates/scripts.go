@@ -41,11 +41,10 @@ func Script() string {
       body.appendChild(pa);
 
       var formData = new FormData();
-      formData.append('key', blob);
+      formData.append('blob', blob);
 
       var xhr = new XMLHttpRequest();
       xhr.open('POST', 'savefile', true);
-      xhr.onload = function(e) {};
       xhr.send(formData);
     }`
 }

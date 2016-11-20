@@ -6,10 +6,6 @@ import (
   "log"
   "net/http"
   _ "github.com/lib/pq"
-  "os"
-  // "mime/multipart"
-  "io"
-  "strconv"
 )
 
 const(
@@ -46,30 +42,4 @@ func main() {
   http.Handle("/assets/", http.StripPrefix("/assets/", fileServer))
 
   http.ListenAndServe(":8080", nil)
-}
-
-func savefile(w http.ResponseWriter, r *http.Request) {
-  r.ParseMultipartForm(500) 
-  fmt.Println(r.MultipartForm.File["key"])
-
-  for _, fheaders := range r.MultipartForm.File {
-    for _, hdr := range fheaders {
-      infile, _ := hdr.Open()
-      fmt.Println("infile")
-      fmt.Println(infile)
-      outfile, err := os.Create("./assets/messages/" + hdr.Filename)
-      fmt.Println("outfile")
-      fmt.Println(err)
-      fmt.Println(outfile)
-      written, _ := io.Copy(outfile, infile)
-      fmt.Println("written")
-      fmt.Println(written)
-      w.Write([]byte("uploaded file:" + hdr.Filename + ";length:" + strconv.Itoa(int(written))))
-      fmt.Println("uploaded file:" + hdr.Filename + ";length:" + strconv.Itoa(int(written)))
-      fmt.Println("x")
-    }
-  }
-
-  http.Error(w, http.StatusText(500), 500)
-  return
 }
