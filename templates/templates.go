@@ -8,7 +8,7 @@ import(
 const(
   Title = "Hello, It's Me"
   SignupForm =
-   `<form action="/create" method="POST">
+   `<form action="/signup/create" method="POST">
       <label for="username">Username:</label>
       <input type="text" name="username"><br/ >
       <label for="password">Password:</label>
@@ -18,7 +18,7 @@ const(
       <input type="submit" value="Sign Up">
     </form>`
   LoginForm =
-    `<form action="/session" method="POST">
+    `<form action="/login/create" method="POST">
       <label for="username">Username:</label>
       <input type="text" name="username"><br/ >
       <label for="password">Password:</label>

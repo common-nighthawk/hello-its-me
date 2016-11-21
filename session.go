@@ -9,7 +9,7 @@ import(
   "time"
 )
 
-func session(w http.ResponseWriter, r *http.Request) {
+func createLogin(w http.ResponseWriter, r *http.Request) {
   var err error
 
   err = r.ParseForm()

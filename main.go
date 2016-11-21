@@ -30,13 +30,13 @@ func init() {
 func main() {
   http.HandleFunc("/", landing)
   http.HandleFunc("/signup", signup)
-  http.HandleFunc("/create", create)
+  http.HandleFunc("/signup/create", createSignup)
   http.HandleFunc("/login", login)
-  http.HandleFunc("/session", session)
+  http.HandleFunc("/login/create", createLogin)
   http.HandleFunc("/actions", actions)
+  http.HandleFunc("/message/new", newMessage)
+  http.HandleFunc("/message", message)
   http.HandleFunc("/messages", messages)
-  http.HandleFunc("/send", send)
-  http.HandleFunc("/savefile", savefile)
 
   fileServer := http.FileServer(http.Dir(fileServerDir))
   http.Handle("/assets/", http.StripPrefix("/assets/", fileServer))

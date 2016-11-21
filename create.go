@@ -9,7 +9,7 @@ import(
   "unicode/utf8"
 )
 
-func create(w http.ResponseWriter, r *http.Request) {
+func createSignup(w http.ResponseWriter, r *http.Request) {
   var err error
 
   err = r.ParseForm()

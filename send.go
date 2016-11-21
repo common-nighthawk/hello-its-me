@@ -8,7 +8,7 @@ import(
   "github.com/common-nighthawk/go-figure"
 )
 
-func send(w http.ResponseWriter, r *http.Request) {
+func newMessage(w http.ResponseWriter, r *http.Request) {
   user, found := models.FindCurrentUser(r.Cookies(), db)
   //TODO: handle not found user gracefully
   if found == false { panic("user not found") }

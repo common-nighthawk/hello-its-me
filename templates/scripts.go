@@ -44,7 +44,7 @@ func Script() string {
       formData.append('blob', blob);
 
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'savefile', true);
+      xhr.open('POST', '/message', true);
       xhr.send(formData);
     }`
 }

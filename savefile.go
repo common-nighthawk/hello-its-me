@@ -9,7 +9,7 @@ import(
   "time"
 )
 
-func savefile(w http.ResponseWriter, r *http.Request) {
+func message(w http.ResponseWriter, r *http.Request) {
   user, found := models.FindCurrentUser(r.Cookies(), db)
   //TODO: handle not found user gracefully
   if found == false { panic("user not found") }
