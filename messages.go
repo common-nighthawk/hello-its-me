@@ -9,7 +9,7 @@ import(
 )
 
 func messages(w http.ResponseWriter, r *http.Request) {
-  user, found := models.FindUser(r.Cookies(), db)
+  user, found := models.FindCurrentUser(r.Cookies(), db)
   //TODO: handle not found user gracefully
   if found == false { panic("user not found") }
 
@@ -26,7 +26,7 @@ func messages(w http.ResponseWriter, r *http.Request) {
   fmt.Fprintf(w, "You currently have %d messages. <br><br>", len(messages))
   for _, message  := range messages {
     fmt.Fprint(w, "From: ", message.SenderUsername, "<br>")
-    fmt.Fprint(w, templates.AudioPlayer(message), "<br>")
+    fmt.Fprint(w, templates.AudioPlayer(user, message), "<br>")
   }
 
   fmt.Fprint(w, templates.HTMLBottom())

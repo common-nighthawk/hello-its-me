@@ -45,8 +45,8 @@ func HTMLError(msg string) string {
   return fmt.Sprintf(`<p class="error">%s</p>`, msg)
 }
 
-func AudioPlayer(msg *models.Message) string {
+func AudioPlayer(user *models.User, msg *models.Message) string {
   return fmt.Sprintf(`<audio controls>
-                        <source src="assets/messages/%s" type="audio/mpeg">
-                      </audio>`, msg.Path)
+                        <source src="assets/messages/%s/%s" type="audio/mpeg">
+                      </audio>`, user.UUID, msg.File)
 }

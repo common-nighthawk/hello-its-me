@@ -9,7 +9,7 @@ import(
 )
 
 func actions(w http.ResponseWriter, r *http.Request) {
-  user, found := models.FindUser(r.Cookies(), db)
+  user, found := models.FindCurrentUser(r.Cookies(), db)
   //TODO: handle not found user gracefully
   if found == false { panic("user not found") }
 
