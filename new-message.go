@@ -18,20 +18,19 @@ func newMessage(w http.ResponseWriter, r *http.Request) {
   figure.Write(w, figure.NewFigure(fmt.Sprintf("Hello, %s", user.Username), "puffy"))
   fmt.Fprint(w, "</pre>")
 
-  toUsername := r.FormValue("username")
-  toUser, found := models.FindUserFromUsername(db, toUsername)
-  fmt.Println(toUser)
+  receiverUsername := r.FormValue("username")
+  toUser, found := models.FindUserFromUsername(db, receiverUsername)
 
-  if !found && len(toUsername) > 0 {
-    fmt.Fprintf(w, "Sorry, there is no user with the username %s", toUsername)
+  if !found && len(receiverUsername) > 0 {
+    fmt.Fprintf(w, "Sorry, there is no user with the username %s", receiverUsername)
   }
 
   if found {
-    fmt.Fprint(w, "<button id='start'>Start</button>")
-    fmt.Fprint(w, "<button id='stop'>Stop</button>")
+    fmt.Fprintf(w, "<button id='start' value='%s'>Start</button>", toUser.Username)
+    fmt.Fprintf(w, "<button id='stop' value='%s'>Stop</button>", toUser.Username)
     fmt.Fprint(w, templates.HTMLScript(templates.Script()))
   } else {
-    form := `<form action="/message/new" method="GET">
+    form := `<form action="/message_new" method="GET">
       <label for="username">Username:</label>
       <input type="text" name="username"><br/ >
       <input type="submit" value="Find User">

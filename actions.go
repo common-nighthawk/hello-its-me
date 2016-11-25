@@ -18,6 +18,6 @@ func actions(w http.ResponseWriter, r *http.Request) {
   figure.Write(w, figure.NewFigure(fmt.Sprintf("Hello, %s", user.Username), "puffy"))
   fmt.Fprint(w, "</pre>")
   fmt.Fprint(w, "<a href=\"/messages\">View My Message</a>")
-  fmt.Fprint(w, "<a href=\"/message/new\">Send A Message</a>")
+  fmt.Fprint(w, "<a href=\"/message_new\">Send A Message</a>")
   fmt.Fprint(w, templates.HTMLBottom())
 }

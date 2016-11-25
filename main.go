@@ -30,11 +30,11 @@ func init() {
 func main() {
   http.HandleFunc("/", landing)
   http.HandleFunc("/signup", signup)
-  http.HandleFunc("/signup/create", createSignup)
+  http.HandleFunc("/signup_create", createSignup)
   http.HandleFunc("/login", login)
-  http.HandleFunc("/login/create", createLogin)
+  http.HandleFunc("/login_create", createLogin)
   http.HandleFunc("/actions", actions)
-  http.HandleFunc("/message/new", newMessage)
+  http.HandleFunc("/message_new", newMessage)
   http.HandleFunc("/message", message)
   http.HandleFunc("/messages", messages)
 

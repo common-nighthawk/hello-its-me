@@ -15,8 +15,14 @@ func message(w http.ResponseWriter, r *http.Request) {
   if found == false { panic("user not found") }
 
   r.ParseMultipartForm(500)
+
+  receiverUsername := r.FormValue("receiver_username")
+  receiverUser, found := models.FindUserFromUsername(db, receiverUsername)
+  if found == false { panic("user not found") }
+  fmt.Println(receiverUsername)
+
   file := r.MultipartForm.File["blob"][0]
-  outfileDir := fileDir(user)
+  outfileDir := fileDir(receiverUser)
   outfileName := fileName()
 
   infile, err := file.Open()
@@ -32,7 +38,7 @@ func message(w http.ResponseWriter, r *http.Request) {
     http.Error(w, http.StatusText(500), 500)
     return
   }
-  _, err = db.Exec("INSERT INTO messages VALUES($1, $2, $3)", user.Username, "aaab", outfileName)
+  _, err = db.Exec("INSERT INTO messages VALUES($1, $2, $3)", user.Username, receiverUser.UUID, outfileName)
   if err != nil {
     http.Error(w, http.StatusText(500), 500)
     return

@@ -44,7 +44,8 @@ func Script() string {
       formData.append('blob', blob);
 
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', '/message', true);
+      var postURL = '/message?receiver_username=' + stop.value
+      xhr.open('POST', postURL, true);
       xhr.send(formData);
     }`
 }
