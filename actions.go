@@ -5,7 +5,6 @@ import(
   "./templates"
   "fmt"
   "net/http"
-  "github.com/common-nighthawk/go-figure"
 )
 
 func actions(w http.ResponseWriter, r *http.Request) {
@@ -14,9 +13,7 @@ func actions(w http.ResponseWriter, r *http.Request) {
   if found == false { panic("user not found") }
 
   fmt.Fprint(w, templates.HTMLTop(templates.Style("centered")))
-  fmt.Fprint(w, "<pre class=\"figlet\">")
-  figure.Write(w, figure.NewFigure(fmt.Sprintf("Hello, %s", user.Username), "puffy"))
-  fmt.Fprint(w, "</pre>")
+  templates.WriteBanner(w, "Hello, " + user.Username)
   fmt.Fprint(w, "<a href=\"/messages\">View My Message</a>")
   fmt.Fprint(w, "<a href=\"/message_new\">Send A Message</a>")
   fmt.Fprint(w, templates.HTMLBottom())

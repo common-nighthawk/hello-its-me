@@ -1,12 +1,15 @@
 package templates
 
 import(
-  "fmt"
   "../models"
+  "fmt"
+  "io"
+  "github.com/common-nighthawk/go-figure"
 )
 
 const(
   Title = "Hello, It's Me"
+  figletFont = "puffy"
   SignupForm =
    `<form action="/signup_create" method="POST">
       <label for="username">Username:</label>
@@ -35,6 +38,12 @@ func HTMLTop(style string) string {
 
 func HTMLBottom() string {
   return `</body></html>`
+}
+
+func WriteBanner(writer io.Writer, bannerTest string) {
+  fmt.Fprint(writer, "<pre class=\"figlet\">")
+  figure.Write(writer, figure.NewFigure(bannerTest, figletFont))
+  fmt.Fprint(writer, "</pre>")
 }
 
 func HTMLScript(script string) string {

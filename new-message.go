@@ -5,7 +5,6 @@ import(
   "./templates"
   "fmt"
   "net/http"
-  "github.com/common-nighthawk/go-figure"
 )
 
 func newMessage(w http.ResponseWriter, r *http.Request) {
@@ -14,9 +13,7 @@ func newMessage(w http.ResponseWriter, r *http.Request) {
   if found == false { panic("user not found") }
 
   fmt.Fprint(w, templates.HTMLTop(templates.Style("centered")))
-  fmt.Fprint(w, "<pre class=\"figlet\">")
-  figure.Write(w, figure.NewFigure(fmt.Sprintf("Hello, %s", user.Username), "puffy"))
-  fmt.Fprint(w, "</pre>")
+  templates.WriteBanner(w, "Hello, " + user.Username)
 
   receiverUsername := r.FormValue("username")
   toUser, found := models.FindUserFromUsername(db, receiverUsername)
