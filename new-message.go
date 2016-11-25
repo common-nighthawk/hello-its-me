@@ -18,9 +18,26 @@ func newMessage(w http.ResponseWriter, r *http.Request) {
   figure.Write(w, figure.NewFigure(fmt.Sprintf("Hello, %s", user.Username), "puffy"))
   fmt.Fprint(w, "</pre>")
 
-  fmt.Fprint(w, "<button id='start'>Start</button>")
-  fmt.Fprint(w, "<button id='stop'>Stop</button>")
+  toUsername := r.FormValue("username")
+  toUser, found := models.FindUserFromUsername(db, toUsername)
+  fmt.Println(toUser)
 
-  fmt.Fprint(w, templates.HTMLScript(templates.Script()))
+  if !found && len(toUsername) > 0 {
+    fmt.Fprintf(w, "Sorry, there is no user with the username %s", toUsername)
+  }
+
+  if found {
+    fmt.Fprint(w, "<button id='start'>Start</button>")
+    fmt.Fprint(w, "<button id='stop'>Stop</button>")
+    fmt.Fprint(w, templates.HTMLScript(templates.Script()))
+  } else {
+    form := `<form action="/message/new" method="GET">
+      <label for="username">Username:</label>
+      <input type="text" name="username"><br/ >
+      <input type="submit" value="Find User">
+    </form>`
+    fmt.Fprint(w, form)
+  }
+
   fmt.Fprint(w, templates.HTMLBottom())
 }
