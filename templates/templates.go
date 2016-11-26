@@ -28,6 +28,12 @@ const(
       <input type="password" name="password"><br/ >
       <input type="submit" value="Log In">
     </form>`
+  FindUserForm =
+    `<form action="/message_new" method="GET">
+       <label for="receiver_username">Username:</label>
+       <input type="text" name="receiver_username">
+       <input type="submit" value="Find User">
+     </form>`
 )
 
 func HTMLTop(style string) string {
@@ -41,9 +47,11 @@ func HTMLBottom() string {
 }
 
 func WriteBanner(writer io.Writer, bannerTest string) {
+  fmt.Fprint(writer, "<a class=\"figlet\" href=\"/actions\">")
   fmt.Fprint(writer, "<pre class=\"figlet\">")
   figure.Write(writer, figure.NewFigure(bannerTest, figletFont))
   fmt.Fprint(writer, "</pre>")
+  fmt.Fprint(writer, "</a>")
 }
 
 func HTMLScript(script string) string {

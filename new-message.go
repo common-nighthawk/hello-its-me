@@ -8,31 +8,27 @@ import(
 )
 
 func newMessage(w http.ResponseWriter, r *http.Request) {
-  user, found := models.FindCurrentUser(r.Cookies(), db)
-  //TODO: handle not found user gracefully
-  if found == false { panic("user not found") }
+  currentUser, found := models.FindCurrentUser(r.Cookies(), db)
+  if !found {
+    http.Error(w, "no user logged in", 500)
+    return
+  }
+  receiverUsername := r.FormValue("receiver_username")
+  receiverUser, found := models.FindUserFromUsername(db, receiverUsername)
 
   fmt.Fprint(w, templates.HTMLTop(templates.Style("centered")))
-  templates.WriteBanner(w, "Hello, " + user.Username)
-
-  receiverUsername := r.FormValue("username")
-  toUser, found := models.FindUserFromUsername(db, receiverUsername)
-
-  if !found && len(receiverUsername) > 0 {
-    fmt.Fprintf(w, "Sorry, there is no user with the username %s", receiverUsername)
+  templates.WriteBanner(w, "Hello, " + currentUser.Username)
+  if !found && receiverUsername != "" {
+    msg := "There is no user with the username " + receiverUsername
+    fmt.Fprint(w, templates.HTMLError(msg))
   }
 
   if found {
-    fmt.Fprintf(w, "<button id='start' value='%s'>Start</button>", toUser.Username)
-    fmt.Fprintf(w, "<button id='stop' value='%s'>Stop</button>", toUser.Username)
+    fmt.Fprintf(w, "<button id='start' value='%s'>Start</button>", receiverUser.Username)
+    fmt.Fprintf(w, "<button id='stop' value='%s'>Stop</button>", receiverUser.Username)
     fmt.Fprint(w, templates.HTMLScript(templates.Script()))
   } else {
-    form := `<form action="/message_new" method="GET">
-      <label for="username">Username:</label>
-      <input type="text" name="username"><br/ >
-      <input type="submit" value="Find User">
-    </form>`
-    fmt.Fprint(w, form)
+    fmt.Fprint(w, templates.FindUserForm)
   }
 
   fmt.Fprint(w, templates.HTMLBottom())
