@@ -38,8 +38,6 @@ func main() {
   http.HandleFunc("/message", message)
   http.HandleFunc("/messages", messages)
 
-  fileServer := http.FileServer(http.Dir(fileServerDir))
-  http.Handle("/assets/", http.StripPrefix("/assets/", fileServer))
-
+  http.HandleFunc("/assets/", assets)
   http.ListenAndServe(":8080", nil)
 }
