@@ -24,8 +24,13 @@ func newMessage(w http.ResponseWriter, r *http.Request) {
   }
 
   if found {
+    fmt.Fprintf(w, "<p id='message'>Record your message for %s:</p>", receiverUser.Username)
     fmt.Fprintf(w, "<button id='start' value='%s'>Start</button>", receiverUser.Username)
     fmt.Fprintf(w, "<button id='stop' value='%s'>Stop</button>", receiverUser.Username)
+    fmt.Fprintf(w, "<button id='dismiss' value='%s'>Dismiss</button>", receiverUser.Username)
+    fmt.Fprintf(w, "<button id='send' value='%s'>Send to %s</button>", receiverUser.Username, receiverUser.Username)
+    fmt.Fprintf(w, "<p id='rec'>recording</p>")
+    fmt.Fprintf(w, "<p id='audio-holder'></p>")
     fmt.Fprint(w, templates.HTMLScript(templates.Script()))
   } else {
     fmt.Fprint(w, templates.FindUserForm)

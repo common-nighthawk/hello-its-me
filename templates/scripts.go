@@ -4,13 +4,18 @@ func Script() string {
   return `
     var start = document.getElementById('start');
     var stop = document.getElementById('stop');
-    var body = document.body;
-    var media = { tag: 'audio', type: 'audio/ogg', ext: '.ogg', gUM: {audio: true} };
-    var stream;
-    var recorder;
-    var chunks;
-    var blob;
-    var url;
+    var dismiss = document.getElementById('dismiss');
+    var send = document.getElementById('send');
+    var message = document.getElementById('message')
+    var rec = document.getElementById('rec');
+
+    stop.style.display='none';
+    dismiss.style.display='none';
+    send.style.display='none';
+    rec.style.display='none';
+
+    var media = { tag: 'audio', type: 'audio/mp3', gUM: {audio: true} };
+    var stream, recorder, chunks, blob;
 
     navigator.mediaDevices.getUserMedia(media.gUM).then(_stream => {
       stream = _stream;
@@ -24,22 +29,29 @@ func Script() string {
     start.onclick = e => {
       chunks=[];
       recorder.start();
+      start.style.display='none'; stop.style.display='initial'; rec.style.display='block';
     }
 
     stop.onclick = e => {
       recorder.stop();
+      stop.style.display='none'; rec.style.display='none'; send.style.display='initial'; dismiss.style.display='initial';
+
       blob = new Blob(chunks, {type: media.type });
-      url = window.URL.createObjectURL(blob);
+      var url = window.URL.createObjectURL(blob);
       console.log('created audio successfully: ' + url);
 
+      var ah = document.getElementById('audio-holder');
       var pa = document.createElement('p');
       var mt = document.createElement(media.tag);
       var hf = document.createElement('a');
       mt.controls = true;
       mt.src = url;
       pa.appendChild(mt);
-      body.appendChild(pa);
+      ah.appendChild(pa);
+      message.innerHTML = 'You can preview your message. Then decide what you wanna do.'
+    }
 
+    send.onclick = e => {
       var formData = new FormData();
       formData.append('blob', blob);
 
@@ -47,5 +59,12 @@ func Script() string {
       var postURL = '/message?receiver_username=' + stop.value
       xhr.open('POST', postURL, true);
       xhr.send(formData);
+
+      dismiss.style.display='none'; send.style.display='none';
+      message.innerHTML = 'Your message was successfully sent!'
+    }
+
+    dismiss.onclick = e => {
+      window.location.reload(false);
     }`
 }
