@@ -5,22 +5,18 @@ import (
   "database/sql"
   "log"
   "net/http"
+  "os"
+  "runtime"
   _ "github.com/lib/pq"
 )
 
-const(
-  dbuser = "Daniel"
-  dbname = "hello-its-me"
-  sslmode = "disable"
-  fileServerDir = "/Users/Daniel/Documents/go-workspace/src/hello-its-me/assets"
-)
-
+const dbname = "hello-its-me"
 var db *sql.DB
+var fileServerDir string = os.Getenv("GOPATH") + "src/hello-its-me/assets"
 
 func init() {
   var err error
-  dbConf := fmt.Sprintf("user=%s dbname=%s sslmode=%s", dbuser, dbname, sslmode)
-  db, err = sql.Open("postgres", dbConf)
+  db, err = sql.Open("postgres", dbSource(env()))
   if err != nil { log.Fatal(err) }
   if err = db.Ping(); err != nil {
     log.Fatal(err)
@@ -39,5 +35,28 @@ func main() {
   http.HandleFunc("/messages", messages)
 
   http.HandleFunc("/assets/", assets)
-  http.ListenAndServe(":8080", nil)
+
+  if env() == "prod" {
+    http.ListenAndServeTLS(":443", "/home/ubuntu/.ssl/cert.pem", "/home/ubuntu/.ssl/key.pem", nil)
+  } else {
+    http.ListenAndServe(":8080", nil)
+  }
+}
+
+func env() string {
+  if runtime.GOOS == "linux" {
+    return "prod"
+  } else if runtime.GOOS == "darwin" {
+    return "dev"
+  }
+  panic("program not running on mac or linux")
+}
+
+func dbSource(env string) string {
+  if env == "prod" {
+    dbuser, dbpassword := "postgres", "HA!YOUWISH"
+    return fmt.Sprintf("postgres://%s:%s@localhost/%s", dbuser, dbpassword, dbname)
+  }
+  dbuser, sslmode := "Daniel", "disable"
+  return fmt.Sprintf("user=%s dbname=%s sslmode=%s", dbuser, dbname, sslmode)
 }
