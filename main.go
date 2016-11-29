@@ -33,10 +33,13 @@ func main() {
   http.HandleFunc("/message_new", newMessage)
   http.HandleFunc("/message", message)
   http.HandleFunc("/messages", messages)
-
   http.HandleFunc("/assets/", assets)
 
   if env() == "prod" {
+    go http.ListenAndServe(":80", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+      secureURL := fmt.Sprintf("https://%s%s", r.Host, r.URL.String())
+      http.Redirect(w, r, secureURL, http.StatusMovedPermanently)
+    }))
     http.ListenAndServeTLS(":443", "/home/ubuntu/.ssl/cert.pem", "/home/ubuntu/.ssl/key.pem", nil)
   } else {
     http.ListenAndServe(":8080", nil)
