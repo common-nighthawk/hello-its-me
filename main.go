@@ -29,6 +29,7 @@ func main() {
   http.HandleFunc("/signup_create", createSignup)
   http.HandleFunc("/login", login)
   http.HandleFunc("/login_create", createLogin)
+  http.HandleFunc("/logout", logout)
   http.HandleFunc("/actions", actions)
   http.HandleFunc("/message_new", newMessage)
   http.HandleFunc("/message", message)
