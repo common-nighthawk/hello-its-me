@@ -38,8 +38,11 @@ const(
 
 func HTMLTop(style string) string {
   return fmt.Sprintf(`<!DOCTYPE HTML><html>
-                      <head><style>%s</style></head>
-                      <title>%s</title><body id='body'>`, style, Title)
+                      <head>
+                      <style>%s</style>
+                      <script>%s</script>
+                      </head>
+                      <title>%s</title><body id='body'>`, style, gaScript, Title)
 }
 
 func HTMLBottom() string {

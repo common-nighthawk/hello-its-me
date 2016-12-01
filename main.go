@@ -1,18 +1,18 @@
 package main
 
 import (
-  "fmt"
+  "./secrets"
   "database/sql"
+  "fmt"
   "log"
   "net/http"
-  "os"
   "runtime"
   _ "github.com/lib/pq"
 )
 
 const dbname = "hello-its-me"
 var db *sql.DB
-var fileServerDir string = os.Getenv("GOPATH") + "src/hello-its-me/assets"
+var fileServerDir string = secrets.FileServerDir(env())
 
 func init() {
   var err error
@@ -41,7 +41,7 @@ func main() {
       secureURL := fmt.Sprintf("https://%s%s", r.Host, r.URL.String())
       http.Redirect(w, r, secureURL, http.StatusMovedPermanently)
     }))
-    http.ListenAndServeTLS(":443", "/home/ubuntu/.ssl/cert.pem", "/home/ubuntu/.ssl/key.pem", nil)
+    http.ListenAndServeTLS(":443", secrets.SSLCert, secrets.SSLKey, nil)
   } else {
     http.ListenAndServe(":8080", nil)
   }
@@ -58,7 +58,7 @@ func env() string {
 
 func dbSource(env string) string {
   if env == "prod" {
-    dbuser, dbpassword := "postgres", "HA!YOUWISH"
+    dbuser, dbpassword := "postgres", secrets.DBPassword
     return fmt.Sprintf("postgres://%s:%s@localhost/%s", dbuser, dbpassword, dbname)
   }
   dbuser, sslmode := "Daniel", "disable"
