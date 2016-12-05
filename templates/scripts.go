@@ -19,8 +19,11 @@ func MsgScript() string {
     var dismiss = document.getElementById('dismiss');
     var send = document.getElementById('send');
     var message = document.getElementById('message')
+    var error = document.getElementsByClassName("error")[0];
     var rec = document.getElementById('rec');
 
+    error.innerHTML = '';
+    start.style.display='initial';
     stop.style.display='none';
     dismiss.style.display='none';
     send.style.display='none';
@@ -36,6 +39,26 @@ func MsgScript() string {
         chunks.push(e.data);
       };
       console.log('got media successfully');
+    }).catch(function(err) {
+      var errorMessage = '';
+      switch(err["name"]) {
+        case 'PermissionDeniedError':
+          errorMessage = 'Uh oh. Access to your microphone is currently not allowed--making it impossible to send a message.<br>\
+                          You can grant access with these instructions for\
+                          <a href="https://support.google.com/chrome/answer/2693767">Chrome</a> and\
+                          <a href="https://support.mozilla.org/en-US/kb/permissions-manager-give-ability-store-passwords-set-cookies-more">Firefox</a>.'
+          break;
+        case 'NotFoundError':
+          errorMessage = 'Uh oh. No microphone can be found--which is necessary to send a message.\
+                          Go plug in a pair of headphones with a mic!'
+          break;
+        default:
+          errorMessage = 'Uh oh. There was an error accessing the microphone.'
+      }
+      start.style.display='none'
+      error.innerHTML = errorMessage
+      message.innerHTML = 'Reload the page once the mic is accessible.'
+      console.log(err)
     });
 
     start.onclick = e => {
@@ -71,9 +94,15 @@ func MsgScript() string {
       var postURL = '/message?receiver_username=' + stop.value
       xhr.open('POST', postURL, true);
       xhr.send(formData);
-
+      xhr.onload = function() {
+        if (xhr.status == 200) {
+          message.innerHTML = 'Your message was successfully sent!'
+        } else {
+          message.innerHTML = ''
+          error.innerHTML = 'Oops. There was an error sending your message. Bleh--I\'m sorry :('
+        }
+      }
       dismiss.style.display='none'; send.style.display='none';
-      message.innerHTML = 'Your message was successfully sent!'
     }
 
     dismiss.onclick = e => {

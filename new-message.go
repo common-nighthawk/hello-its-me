@@ -24,6 +24,7 @@ func newMessage(w http.ResponseWriter, r *http.Request) {
   }
 
   if found {
+    fmt.Fprint(w, templates.HTMLError("Uh oh. This page is interactive. Please either enable JavaScript or update your web browser."))
     fmt.Fprintf(w, "<p id='message'>Record your message for %s:</p>", receiverUser.Username)
     fmt.Fprintf(w, "<button id='start' value='%s'>Start</button>", receiverUser.Username)
     fmt.Fprintf(w, "<button id='stop' value='%s'>Stop</button>", receiverUser.Username)
