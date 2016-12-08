@@ -20,6 +20,6 @@ func assets(w http.ResponseWriter, r *http.Request) {
     http.Error(w, "unauthorized", 500)
     return
   }
-  file := fileServerDir + strings.SplitAfter(r.URL.Path, "/assets")[1]
+  file := messagesDir + strings.SplitAfter(r.URL.Path, "/messages")[1]
   http.ServeFile(w, r, file)
 }

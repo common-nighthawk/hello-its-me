@@ -7,9 +7,9 @@ const(
   SSLKey = "/home/ubuntu/.ssl/key.pem"
 )
 
-func FileServerDir(env string) string {
+func MessagesDir(env string) string {
   if env == "prod" {
-    return "/home/ubuntu/go/src/hello-its-me/assets"
+    return "/home/ubuntu/messages"
   }
-  return "/Users/Daniel/Documents/go-workspace/src/hello-its-me/assets"
+  return "/Users/Daniel/Documents/go-workspace/src/hello-its-me/messages"
 }

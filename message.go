@@ -44,7 +44,7 @@ func message(w http.ResponseWriter, r *http.Request) {
 }
 
 func fileDir(user *models.User) string {
-  return fmt.Sprintf("%s/messages/%s", fileServerDir, user.UUID)
+  return fmt.Sprintf("%s/%s", messagesDir, user.UUID)
 }
 
 func fileName() string {

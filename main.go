@@ -12,7 +12,7 @@ import (
 
 const dbname = "hello-its-me"
 var db *sql.DB
-var fileServerDir string = secrets.FileServerDir(env())
+var messagesDir string = secrets.MessagesDir(env())
 
 func init() {
   var err error
