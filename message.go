@@ -2,10 +2,13 @@ package main
 
 import(
   "./models"
+  "./secrets"
   "fmt"
   "io"
   "net/http"
   "os"
+  "os/exec"
+  "path/filepath"
   "time"
 )
 
@@ -35,6 +38,11 @@ func message(w http.ResponseWriter, r *http.Request) {
     http.Error(w, "failed saving file to server", 500)
     return
   }
+  outfileName, err = convertWebMtoMP3(outfile)
+  if err != nil {
+    http.Error(w, "failed converting file on server", 500)
+    return
+  }
 
   _, err = db.Exec("INSERT INTO messages VALUES($1, $2, $3)", currentUser.Username, receiverUser.UUID, outfileName)
   if err != nil {
@@ -48,5 +56,13 @@ func fileDir(user *models.User) string {
 }
 
 func fileName() string {
-  return time.Now().Format(time.RFC3339) + ".mp3"
+  return time.Now().Format(time.RFC3339) + ".webm"
+}
+
+func convertWebMtoMP3(file *os.File) (string, error) {
+  oldName := file.Name()
+  newName := oldName[:len(oldName)-4] + "mp3"
+  args := fmt.Sprintf("-i 'file:%s' -vn -ab 128k -ar 44100 -y 'file:%s'",  oldName, newName)
+  err := exec.Command("bash", "-c", secrets.FFmpeg(env()) + args).Run()
+  return filepath.Base(newName), err
 }

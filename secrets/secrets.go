@@ -13,3 +13,10 @@ func MessagesDir(env string) string {
   }
   return "/Users/Daniel/Documents/go-workspace/src/hello-its-me/messages"
 }
+
+func FFmpeg(env string) string {
+  if env == "prod" {
+    return "/usr/bin/ffmpeg "
+  }
+  return "/usr/local/bin/ffmpeg "
+}

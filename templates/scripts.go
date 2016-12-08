@@ -29,7 +29,7 @@ func MsgScript() string {
     send.style.display='none';
     rec.style.display='none';
 
-    var media = { tag: 'audio', type: 'audio/mp3', gUM: {audio: true} };
+    var media = { tag: 'audio', type: 'audio/webm', gUM: {audio: true} };
     var stream, recorder, chunks, blob;
 
     navigator.mediaDevices.getUserMedia(media.gUM).then(_stream => {
