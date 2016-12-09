@@ -70,6 +70,14 @@ func MsgScript() string {
     stop.onclick = e => {
       recorder.stop();
       stop.style.display='none'; rec.style.display='none'; send.style.display='initial'; dismiss.style.display='initial';
+      setBlob();
+    }
+
+    function setBlob() {
+      if (chunks.length < 1) {
+        setTimeout(setBlob, 25);
+        return;
+      }
 
       blob = new Blob(chunks, {type: media.type });
       var url = window.URL.createObjectURL(blob);
