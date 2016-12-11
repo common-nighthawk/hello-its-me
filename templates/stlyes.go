@@ -9,6 +9,7 @@ func Style(style string) string {
             button { margin: 0 5px; }
             .error { color: red; }
             .error a { margin: 0; }
+            input[name="receiver_username"], select[name="explode"] { margin-bottom:  10px; }
             #start, #stop, #dismiss, #send, #message { display: none; }
             #rec { display: none; color: red; animation: blinker 1.5s linear infinite; }
             @keyframes blinker {  50% { opacity: 0; }}`

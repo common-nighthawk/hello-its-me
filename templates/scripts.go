@@ -83,7 +83,7 @@ func MsgScript() string {
 
     function postMessage(formData) {
       var xhr = new XMLHttpRequest();
-      var postURL = '/message?receiver_username=' + stop.value
+      var postURL = '/message?receiver_username=' + send.value + '&explode=' + start.value
       xhr.open('POST', postURL, true);
       xhr.send(formData);
       xhr.onload = function() {
