@@ -48,9 +48,9 @@ func message(w http.ResponseWriter, r *http.Request) {
   }
 
   explosionCol, explosionVal := explosionDetails(explodeInSeconds)
-  insertStatement := fmt.Sprintf("INSERT into messages (sender_username, receiver_uuid, file, %s) VALUES ($1, $2, $3, $4)", explosionCol)
+  insertStatement := fmt.Sprintf("INSERT into messages (sender_username, receiver_uuid, file, %s, created_at) VALUES ($1, $2, $3, $4, $5)", explosionCol)
   dbStatement, _ := db.Prepare(insertStatement)
-  _, err = dbStatement.Exec(currentUser.Username, receiverUser.UUID, outfileName, explosionVal)
+  _, err = dbStatement.Exec(currentUser.Username, receiverUser.UUID, outfileName, explosionVal, time.Now())
 
   if err != nil {
     http.Error(w, "failed adding message to database", 500)

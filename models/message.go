@@ -8,4 +8,5 @@ type Message struct {
   File string
   ExpiresAt time.Time
   ExplodeAfter int
+  CreatedAt time.Time
 }

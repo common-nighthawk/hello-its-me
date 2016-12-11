@@ -43,10 +43,10 @@ func findUserFromRow(row *sql.Row) (*User, bool) {
 }
 
 func (user User) Messages(db *sql.DB) (messages []*Message, err error) {
-  rows, err := db.Query("SELECT * FROM messages WHERE receiver_uuid = $1", user.UUID)
+  rows, err := db.Query("SELECT * FROM messages WHERE receiver_uuid = $1 ORDER BY created_at DESC", user.UUID)
   for rows.Next() {
     message := new(Message)
-    err = rows.Scan(&message.SenderUsername, &message.ReceiverUUID, &message.File)
+    err = rows.Scan(&message.SenderUsername, &message.ReceiverUUID, &message.File, &message.ExpiresAt, &message.ExplodeAfter, &message.CreatedAt)
     messages = append(messages, message)
   }
   return messages, err

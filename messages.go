@@ -5,6 +5,11 @@ import(
   "./templates"
   "fmt"
   "net/http"
+  "time"
+)
+
+const(
+  msgTimeFmt = "January 2, 2006 @ 03:04 pm"
 )
 
 func messages(w http.ResponseWriter, r *http.Request) {
@@ -24,9 +29,22 @@ func messages(w http.ResponseWriter, r *http.Request) {
   }
   fmt.Fprintf(w, "You currently have %d messages. <br><br>", len(messages))
   for _, message  := range messages {
+    fmt.Fprint(w, "<div class='message'>")
     fmt.Fprint(w, "From: ", message.SenderUsername, "<br>")
     fmt.Fprint(w, templates.AudioPlayer(currentUser, message), "<br>")
+    fmt.Fprint(w, "<span>")
+    fmt.Fprint(w, "Sent: ", message.CreatedAt.Format(msgTimeFmt), " | ")
+    fmt.Fprint(w, "Explodes: ", explodesAt(message), "<br>")
+    fmt.Fprint(w, "</span></div>")
   }
 
   fmt.Fprint(w, templates.HTMLBottom())
+}
+
+func explodesAt(message *models.Message) string {
+  if message.ExpiresAt.After(time.Now()) {
+    return message.ExpiresAt.Format(msgTimeFmt)
+  }
+  duration := time.Duration(message.ExplodeAfter) * time.Second
+  return fmt.Sprintf("%s after listening", duration)
 }
