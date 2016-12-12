@@ -50,7 +50,7 @@ func message(w http.ResponseWriter, r *http.Request) {
   explosionCol, explosionVal := explosionDetails(explodeInSeconds)
   insertStatement := fmt.Sprintf("INSERT into messages (sender_username, receiver_uuid, file, %s, created_at) VALUES ($1, $2, $3, $4, $5)", explosionCol)
   dbStatement, _ := db.Prepare(insertStatement)
-  _, err = dbStatement.Exec(currentUser.Username, receiverUser.UUID, outfileName, explosionVal, time.Now())
+  _, err = dbStatement.Exec(currentUser.Username, receiverUser.UUID, outfileName, explosionVal, time.Now().UTC())
 
   if err != nil {
     http.Error(w, "failed adding message to database", 500)
@@ -63,7 +63,7 @@ func fileDir(user *models.User) string {
 }
 
 func fileName() string {
-  return time.Now().Format(time.RFC3339) + ".webm"
+  return time.Now().UTC().Format(time.RFC3339) + ".webm"
 }
 
 func convertWebMtoMP3(file *os.File) (string, error) {
@@ -77,7 +77,7 @@ func convertWebMtoMP3(file *os.File) (string, error) {
 func explosionDetails(explodeInSeconds int) (attr string, value interface{}) {
   attr, value = "explode_after", -explodeInSeconds
   if explodeInSeconds > 0 {
-    attr, value = "expires_at", time.Now().Add(time.Duration(explodeInSeconds) * time.Second)
+    attr, value = "expires_at", time.Now().UTC().Add(time.Duration(explodeInSeconds) * time.Second)
   }
   return attr, value
 }

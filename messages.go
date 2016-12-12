@@ -38,11 +38,12 @@ func messages(w http.ResponseWriter, r *http.Request) {
     fmt.Fprint(w, "</span></div>")
   }
 
+  fmt.Fprint(w, templates.HTMLScript(templates.ExpireScript()))
   fmt.Fprint(w, templates.HTMLBottom())
 }
 
 func explodesAt(message *models.Message) string {
-  if message.ExpiresAt.After(time.Now()) {
+  if message.ExpiresAt.After(time.Now().UTC()) {
     return message.ExpiresAt.Format(msgTimeFmt)
   }
   duration := time.Duration(message.ExplodeAfter) * time.Second

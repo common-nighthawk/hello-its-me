@@ -33,6 +33,7 @@ func main() {
   http.HandleFunc("/actions", actions)
   http.HandleFunc("/message_new", newMessage)
   http.HandleFunc("/message", message)
+  http.HandleFunc("/message_update", updateMessage)
   http.HandleFunc("/messages", messages)
   http.HandleFunc("/assets/", assets)
 

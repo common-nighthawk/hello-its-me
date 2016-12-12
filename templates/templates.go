@@ -82,7 +82,7 @@ func HTMLError(msg string) string {
 }
 
 func AudioPlayer(user *models.User, msg *models.Message) string {
-  return fmt.Sprintf(`<audio controls>
+  return fmt.Sprintf(`<audio controls id=%s>
                         <source src="assets/messages/%s/%s" type="audio/mpeg">
-                      </audio>`, user.UUID, msg.File)
+                      </audio>`, msg.File, user.UUID, msg.File)
 }
