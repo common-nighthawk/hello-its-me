@@ -18,6 +18,16 @@ const(
       <input type="password" name="password"><br/ >
       <label for="confirmation">Confirm Password:</label>
       <input type="password" name="confirmation"><br/ >
+      <label for="timezone">Timezone:</label>
+      <select name="timezone">
+         <option value="US/Eastern">US Eastern</option>
+         <option value="US/Central">US Central</option>
+         <option value="US/Mountain">US Mountain</option>
+         <option value="US/Pacific">US Pacific</option>
+         <option value="US/Alaska">US Alaska</option>
+         <option value="US/Hawaii">US Hawaii</option>
+         <option value="UTC">Coordinated Universal Time (UTC)</option>
+      </select><br />
       <input type="submit" value="Sign Up">
     </form>`
   LoginForm =

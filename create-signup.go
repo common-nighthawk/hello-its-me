@@ -13,7 +13,7 @@ func createSignup(w http.ResponseWriter, r *http.Request) {
   var err error
 
   err = r.ParseForm()
-  username, password, confirmation := r.FormValue("username"), r.FormValue("password"), r.FormValue("confirmation")
+  username, password, confirmation, timezone := r.FormValue("username"), r.FormValue("password"), r.FormValue("confirmation"), r.FormValue("timezone")
 
   row, err := db.Exec("SELECT * FROM users WHERE username = $1", username)
   count, err := row.RowsAffected()
@@ -36,7 +36,7 @@ func createSignup(w http.ResponseWriter, r *http.Request) {
   }
 
   uuid, err := models.GenerateUUID()
-  result, err := db.Exec("INSERT INTO users (username, password, uuid) VALUES($1, $2, $3)", username, password, uuid)
+  result, err := db.Exec("INSERT INTO users (username, password, uuid, timezone) VALUES($1, $2, $3, $4)", username, password, uuid, timezone)
   _, err = result.RowsAffected()
 
   if err != nil {

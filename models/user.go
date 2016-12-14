@@ -5,12 +5,14 @@ import(
   "encoding/base64"
   "database/sql"
   "net/http"
+  "time"
 )
 
 type User struct {
   Username string
   Password string
   UUID string
+  Timezone string
 }
 
 func FindCurrentUser(cookies []*http.Cookie, db *sql.DB) (*User, bool) {
@@ -35,7 +37,7 @@ func FindUserFromUUID(db *sql.DB, uuid string) (*User, bool) {
 
 func findUserFromRow(row *sql.Row) (*User, bool) {
   user := new(User)
-  err := row.Scan(&user.Username, &user.Password, &user.UUID)
+  err := row.Scan(&user.Username, &user.Password, &user.UUID, &user.Timezone)
   if err != nil {
     return nil, false
   }
@@ -50,6 +52,14 @@ func (user User) Messages(db *sql.DB) (messages []*Message, err error) {
     messages = append(messages, message)
   }
   return messages, err
+}
+
+func (user User) TZLocation() *time.Location {
+  location, err := time.LoadLocation(user.Timezone)
+  if err != nil {
+    location, _ = time.LoadLocation("UTC")
+  }
+  return location
 }
 
 func GenerateUUID() (string, error) {

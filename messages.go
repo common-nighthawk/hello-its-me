@@ -33,8 +33,8 @@ func messages(w http.ResponseWriter, r *http.Request) {
     fmt.Fprint(w, "From: ", message.SenderUsername, "<br>")
     fmt.Fprint(w, templates.AudioPlayer(currentUser, message), "<br>")
     fmt.Fprint(w, "<span>")
-    fmt.Fprint(w, "Sent: ", message.CreatedAt.Format(msgTimeFmt), " | ")
-    fmt.Fprint(w, "Explodes: ", explodesAt(message), "<br>")
+    fmt.Fprint(w, "Sent: ", message.CreatedAt.In(currentUser.TZLocation()).Format(msgTimeFmt), " | ")
+    fmt.Fprint(w, "Explodes: ", explodesAt(message, currentUser.TZLocation()), "<br>")
     fmt.Fprint(w, "</span></div>")
   }
 
@@ -42,9 +42,9 @@ func messages(w http.ResponseWriter, r *http.Request) {
   fmt.Fprint(w, templates.HTMLBottom())
 }
 
-func explodesAt(message *models.Message) string {
+func explodesAt(message *models.Message, location *time.Location) string {
   if message.ExpiresAt.After(time.Now().UTC()) {
-    return message.ExpiresAt.Format(msgTimeFmt)
+    return message.ExpiresAt.In(location).Format(msgTimeFmt)
   }
   duration := time.Duration(message.ExplodeAfter) * time.Second
   return fmt.Sprintf("%s after listening", duration)
