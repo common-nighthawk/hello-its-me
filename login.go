@@ -7,7 +7,7 @@ import (
 )
 
 func login(w http.ResponseWriter, r *http.Request) {
-  tArgs := templates.Args{StyleSheet: "error"}
+  tArgs := templates.Args{StyleSheet: "left"}
   template, _ := template.ParseFiles("templates/login-form.html")
 
   templateHTMLTop.Execute(w, tArgs)

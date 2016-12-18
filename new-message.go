@@ -18,11 +18,11 @@ func newMessage(w http.ResponseWriter, r *http.Request) {
   receiverUser, found := models.FindUserFromUsername(db, receiverUsername)
 
   tArgs := templates.Args{StyleSheet: "centered"}
+
   templateHTMLTop.Execute(w, tArgs)
   templates.WriteBanner(w, "Hello, " + currentUser.Username)
   if !found && receiverUsername != "" {
-    msg := "There is no user with the username " + receiverUsername
-    tArgs.ErrorMsg = msg
+    tArgs.ErrorMsg = "There is no user with the username " + receiverUsername
     templateErrorMsg.Execute(w, tArgs)
   }
 

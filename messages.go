@@ -5,6 +5,7 @@ import(
   "./templates"
   "fmt"
   "net/http"
+  "html/template"
   "time"
 )
 
@@ -19,7 +20,9 @@ func messages(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  tArgs := templates.Args{StyleSheet: "centered"}
+  tArgs := templates.Args{StyleSheet: "centered", UUID: currentUser.UUID}
+  template, _ := template.ParseFiles("templates/audio-player.html")
+
   templateHTMLTop.Execute(w, tArgs)
   templates.WriteBanner(w, "Hello, " + currentUser.Username)
 
@@ -32,7 +35,10 @@ func messages(w http.ResponseWriter, r *http.Request) {
   for _, message  := range messages {
     fmt.Fprint(w, "<div class='message'>")
     fmt.Fprint(w, "From: ", message.SenderUsername, "<br>")
-    fmt.Fprint(w, templates.AudioPlayer(currentUser, message), "<br>")
+
+    tArgs.File = message.File
+    template.Execute(w, tArgs)
+
     fmt.Fprint(w, "<span>")
     fmt.Fprint(w, "Sent: ", message.CreatedAt.In(currentUser.TZLocation()).Format(msgTimeFmt), " | ")
     fmt.Fprint(w, "Explodes: ", explodesAt(message, currentUser.TZLocation()), "<br>")

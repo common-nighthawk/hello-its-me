@@ -28,7 +28,7 @@ func createSignup(w http.ResponseWriter, r *http.Request) {
   }
 
   if userError {
-    tArgs := templates.Args{StyleSheet: "error", ErrorMsg: msg}
+    tArgs := templates.Args{StyleSheet: "left", ErrorMsg: msg}
     template, _ := template.ParseFiles("templates/signup-form.html")
 
     templateHTMLTop.Execute(w, tArgs)
