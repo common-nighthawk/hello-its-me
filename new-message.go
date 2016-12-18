@@ -4,6 +4,7 @@ import(
   "./models"
   "./templates"
   "fmt"
+  "html/template"
   "net/http"
 )
 
@@ -16,7 +17,11 @@ func newMessage(w http.ResponseWriter, r *http.Request) {
   receiverUsername, explodeParam := r.FormValue("receiver_username"), r.FormValue("explode")
   receiverUser, found := models.FindUserFromUsername(db, receiverUsername)
 
-  fmt.Fprint(w, templates.HTMLTop(templates.Style("centered")))
+  tArgs := templates.Args{"centered"}
+  htmlTop, _ := template.ParseFiles("templates/html-top.html")
+  htmlBottom, _ := template.ParseFiles("templates/html-bottom.html")
+
+  htmlTop.Execute(w, tArgs)
   templates.WriteBanner(w, "Hello, " + currentUser.Username)
   if !found && receiverUsername != "" {
     msg := "There is no user with the username " + receiverUsername
@@ -34,8 +39,9 @@ func newMessage(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "<p id='audio-holder'></p>")
     fmt.Fprint(w, templates.HTMLScript(templates.MsgScript()))
   } else {
-    fmt.Fprint(w, templates.FindUserForm)
+    template, _ := template.ParseFiles("templates/find-user-form.html")
+    template.Execute(w, nil)
   }
 
-  fmt.Fprint(w, templates.HTMLBottom())
+  htmlBottom.Execute(w, nil)
 }

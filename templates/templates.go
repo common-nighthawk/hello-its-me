@@ -7,72 +7,10 @@ import(
   "github.com/common-nighthawk/go-figure"
 )
 
-const(
-  Title = "Hello, It's Me"
-  figletFont = "puffy"
-  SignupForm =
-   `<form action="/signup_create" method="POST">
-      <label for="username">Username:</label>
-      <input type="text" name="username"><br/ >
-      <label for="password">Password:</label>
-      <input type="password" name="password"><br/ >
-      <label for="confirmation">Confirm Password:</label>
-      <input type="password" name="confirmation"><br/ >
-      <label for="timezone">Timezone:</label>
-      <select name="timezone">
-         <option value="US/Eastern">US Eastern</option>
-         <option value="US/Central">US Central</option>
-         <option value="US/Mountain">US Mountain</option>
-         <option value="US/Pacific">US Pacific</option>
-         <option value="US/Alaska">US Alaska</option>
-         <option value="US/Hawaii">US Hawaii</option>
-         <option value="UTC">Coordinated Universal Time (UTC)</option>
-      </select><br />
-      <input type="submit" value="Sign Up">
-    </form>`
-  LoginForm =
-    `<form action="/login_create" method="POST">
-      <label for="username">Username:</label>
-      <input type="text" name="username"><br/ >
-      <label for="password">Password:</label>
-      <input type="password" name="password"><br/ >
-      <input type="submit" value="Log In">
-    </form>`
-  FindUserForm =
-    `<form action="/message_new" method="GET">
-       <label for="receiver_username">Username:</label>
-       <input type="text" name="receiver_username"><br/ >
-       <label for="explode">Explode:</label>
-       <select name="explode">
-         <option value="60">1 minute from now</option>
-         <option value="3600">1 hour from now</option>
-         <option value="86400">1 day from now</option>
-         <option value="604800">1 week from now</option>
-         <option value="2628000">1 month from now</option>
-         <option value="31536000">1 year from now</option>
+const figletFont = "puffy"
 
-         <option value="-60">1 minute after listen</option>
-         <option value="-3600">1 hour after listen</option>
-         <option value="-86400">1 day after listen</option>
-         <option value="-604800">1 week after listen</option>
-         <option value="-2628000">1 month after listen</option>
-         <option value="-31536000">1 year after listen</option>
-       </select><br/ >
-       <input type="submit" value="Find User">
-     </form>`
-)
-
-func HTMLTop(style string) string {
-  return fmt.Sprintf(`<!DOCTYPE HTML><html>
-                      <head>
-                      <style>%s</style>
-                      <script>%s</script>
-                      </head>
-                      <title>%s</title><body id='body'>`, style, gaScript, Title)
-}
-
-func HTMLBottom() string {
-  return `</body></html>`
+type Args struct {
+  StyleSheet string
 }
 
 func WriteBanner(writer io.Writer, bannerTest string) {

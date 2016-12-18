@@ -2,7 +2,6 @@ package secrets
 
 const(
   DBPassword = "HA!YOUWISH"
-  GACode = "HA!YOUWISH"
   SSLCert = "/home/ubuntu/.ssl/cert.pem"
   SSLKey = "/home/ubuntu/.ssl/key.pem"
 )

@@ -2,12 +2,17 @@ package main
 
 import (
   "./templates"
-  "fmt"
+  "html/template"
   "net/http"
 )
 
 func signup(w http.ResponseWriter, r *http.Request) {
-  fmt.Fprint(w, templates.HTMLTop(templates.Style("error")))
-  fmt.Fprint(w, templates.SignupForm)
-  fmt.Fprint(w, templates.HTMLBottom())
+  tArgs := templates.Args{"error"}
+  htmlTop, _ := template.ParseFiles("templates/html-top.html")
+  htmlBottom, _ := template.ParseFiles("templates/html-bottom.html")
+  template, _ := template.ParseFiles("templates/signup-form.html")
+
+  htmlTop.Execute(w, tArgs)
+  template.Execute(w, nil)
+  htmlBottom.Execute(w, nil)
 }

@@ -37,6 +37,9 @@ func main() {
   http.HandleFunc("/messages", messages)
   http.HandleFunc("/assets/", assets)
 
+  fileServer := http.FileServer(http.Dir("public"))
+  http.Handle("/public/", http.StripPrefix("/public/", fileServer))
+
   if env() == "prod" {
     go http.ListenAndServe(":80", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
       secureURL := fmt.Sprintf("https://%s%s", r.Host, r.URL.String())

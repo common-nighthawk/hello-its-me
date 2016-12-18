@@ -6,6 +6,7 @@ import(
   "database/sql"
   "fmt"
   "net/http"
+  "html/template"
   "time"
 )
 
@@ -28,10 +29,15 @@ func createLogin(w http.ResponseWriter, r *http.Request) {
   }
 
   if userError {
-    fmt.Fprint(w, templates.HTMLTop(templates.Style("error")))
+    tArgs := templates.Args{"error"}
+    htmlTop, _ := template.ParseFiles("templates/html-top.html")
+    htmlBottom, _ := template.ParseFiles("templates/html-bottom.html")
+    template, _ := template.ParseFiles("templates/login-form.html")
+
+    htmlTop.Execute(w, tArgs)
     fmt.Fprint(w, templates.HTMLError(msg))
-    fmt.Fprint(w, templates.LoginForm)
-    fmt.Fprint(w, templates.HTMLBottom())
+    template.Execute(w, nil)
+    htmlBottom.Execute(w, nil)
     return
   }
 

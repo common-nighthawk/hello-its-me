@@ -5,6 +5,7 @@ import(
   "./templates"
   "fmt"
   "net/http"
+  "html/template"
   "time"
   "unicode/utf8"
 )
@@ -21,17 +22,22 @@ func createSignup(w http.ResponseWriter, r *http.Request) {
   userError, msg := false, ""
   if count > 0 {
     userError, msg = true, "Username is already taken"
-  } else if utf8.RuneCountInString(username) < 3 && utf8.RuneCountInString(password) < 3 {
+  } else if utf8.RuneCountInString(username) < 3 || utf8.RuneCountInString(password) < 3 {
     userError, msg = true, "Username and password must be greater than 2 characters"
   } else if password != confirmation {
     userError, msg = true, "Password and confirmation do not match"
   }
 
   if userError {
-    fmt.Fprint(w, templates.HTMLTop(templates.Style("error")))
+    tArgs := templates.Args{"error"}
+    htmlTop, _ := template.ParseFiles("templates/html-top.html")
+    htmlBottom, _ := template.ParseFiles("templates/html-bottom.html")
+    template, _ := template.ParseFiles("templates/signup-form.html")
+
+    htmlTop.Execute(w, tArgs)
     fmt.Fprint(w, templates.HTMLError(msg))
-    fmt.Fprint(w, templates.SignupForm)
-    fmt.Fprint(w, templates.HTMLBottom())
+    template.Execute(w, nil)
+    htmlBottom.Execute(w, nil)
     return
   }
 

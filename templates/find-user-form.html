@@ -1,0 +1,21 @@
+<form action="/message_new" method="GET">
+  <label for="receiver_username">Username:</label>
+  <input type="text" name="receiver_username"><br/ >
+  <label for="explode">Explode:</label>
+  <select name="explode">
+    <option value="60">1 minute from now</option>
+    <option value="3600">1 hour from now</option>
+    <option value="86400">1 day from now</option>
+    <option value="604800">1 week from now</option>
+    <option value="2628000">1 month from now</option>
+    <option value="31536000">1 year from now</option>
+
+    <option value="-60">1 minute after listen</option>
+    <option value="-3600">1 hour after listen</option>
+    <option value="-86400">1 day after listen</option>
+    <option value="-604800">1 week after listen</option>
+    <option value="-2628000">1 month after listen</option>
+    <option value="-31536000">1 year after listen</option>
+  </select><br/ >
+  <input type="submit" value="Find User">
+</form>
