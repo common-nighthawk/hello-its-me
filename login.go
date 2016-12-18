@@ -2,13 +2,12 @@ package main
 
 import (
   "./templates"
-  "html/template"
   "net/http"
 )
 
 func login(w http.ResponseWriter, r *http.Request) {
   tArgs := templates.Args{StyleSheet: "left"}
-  template, _ := template.ParseFiles("templates/login-form.html")
+  template := findTemplate("login-form")
 
   templateHTMLTop.Execute(w, tArgs)
   template.Execute(w, tArgs)

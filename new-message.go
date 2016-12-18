@@ -5,7 +5,6 @@ import(
   "./templates"
   "fmt"
   "net/http"
-  "html/template"
 )
 
 func newMessage(w http.ResponseWriter, r *http.Request) {
@@ -38,7 +37,7 @@ func newMessage(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "<p id='audio-holder'></p>")
     templateScript.Execute(w, tArgs)
   } else {
-    template, _ := template.ParseFiles("templates/find-user-form.html")
+    template := findTemplate("find-user-form")
     template.Execute(w, tArgs)
   }
 

@@ -4,7 +4,6 @@ import(
   "./models"
   "./templates"
   "net/http"
-  "html/template"
   "time"
   "unicode/utf8"
 )
@@ -29,7 +28,7 @@ func createSignup(w http.ResponseWriter, r *http.Request) {
 
   if userError {
     tArgs := templates.Args{StyleSheet: "left", ErrorMsg: msg}
-    template, _ := template.ParseFiles("templates/signup-form.html")
+    template := findTemplate("signup-form")
 
     templateHTMLTop.Execute(w, tArgs)
     templateErrorMsg.Execute(w, tArgs)

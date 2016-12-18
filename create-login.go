@@ -5,7 +5,6 @@ import(
   "./templates"
   "database/sql"
   "net/http"
-  "html/template"
   "time"
 )
 
@@ -29,7 +28,7 @@ func createLogin(w http.ResponseWriter, r *http.Request) {
 
   if userError {
     tArgs := templates.Args{StyleSheet: "left", ErrorMsg: msg}
-    template, _ := template.ParseFiles("templates/login-form.html")
+    template := findTemplate("login-form")
 
     templateHTMLTop.Execute(w, tArgs)
     templateErrorMsg.Execute(w, tArgs)

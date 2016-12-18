@@ -5,7 +5,6 @@ import(
   "./templates"
   "fmt"
   "net/http"
-  "html/template"
   "time"
 )
 
@@ -21,7 +20,7 @@ func messages(w http.ResponseWriter, r *http.Request) {
   }
 
   tArgs := templates.Args{StyleSheet: "centered", Script: "message-expire", UUID: currentUser.UUID}
-  template, _ := template.ParseFiles("templates/audio-player.html")
+  template := findTemplate("audio-player")
 
   templateHTMLTop.Execute(w, tArgs)
   templates.WriteBanner(w, "Hello, " + currentUser.Username)

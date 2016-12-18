@@ -13,12 +13,13 @@ import (
 
 const dbname = "hello-its-me"
 var db *sql.DB
+var publicDir string = secrets.PublicDir(env())
 var messagesDir string = secrets.MessagesDir(env())
 
-var templateHTMLTop, _ = template.ParseFiles("templates/html-top.html")
-var templateHTMLBottom, _ = template.ParseFiles("templates/html-bottom.html")
-var templateScript, _ = template.ParseFiles("templates/script.html")
-var templateErrorMsg, _ = template.ParseFiles("templates/error-message.html")
+var templateHTMLTop = findTemplate("html-top")
+var templateHTMLBottom = findTemplate("html-bottom")
+var templateScript = findTemplate("script")
+var templateErrorMsg = findTemplate("error-message")
 
 func init() {
   var err error
@@ -43,7 +44,7 @@ func main() {
   http.HandleFunc("/messages", messages)
   http.HandleFunc("/assets/", assets)
 
-  fileServer := http.FileServer(http.Dir("public"))
+  fileServer := http.FileServer(http.Dir(publicDir))
   http.Handle("/public/", http.StripPrefix("/public/", fileServer))
 
   if env() == "prod" {
@@ -73,4 +74,13 @@ func dbSource(env string) string {
   }
   dbuser, sslmode := "Daniel", "disable"
   return fmt.Sprintf("user=%s dbname=%s sslmode=%s", dbuser, dbname, sslmode)
+}
+
+func findTemplate(name string) *template.Template {
+  file := fmt.Sprintf("%s/templates/%s.html", publicDir, name)
+  template, err := template.ParseFiles(file)
+  if err != nil {
+    panic("invalid template")
+  }
+  return template
 }

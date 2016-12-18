@@ -6,6 +6,13 @@ const(
   SSLKey = "/home/ubuntu/.ssl/key.pem"
 )
 
+func PublicDir(env string) string {
+  if env == "prod" {
+    return "/home/ubuntu/go/src/hello-its-me/public"
+  }
+  return "/Users/Daniel/Documents/go-workspace/src/hello-its-me/public"
+}
+
 func MessagesDir(env string) string {
   if env == "prod" {
     return "/home/ubuntu/messages"
