@@ -20,7 +20,7 @@ func messages(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  tArgs := templates.Args{StyleSheet: "centered", UUID: currentUser.UUID}
+  tArgs := templates.Args{StyleSheet: "centered", Script: "message-expire", UUID: currentUser.UUID}
   template, _ := template.ParseFiles("templates/audio-player.html")
 
   templateHTMLTop.Execute(w, tArgs)
@@ -45,7 +45,7 @@ func messages(w http.ResponseWriter, r *http.Request) {
     fmt.Fprint(w, "</span></div>")
   }
 
-  fmt.Fprint(w, templates.HTMLScript(templates.ExpireScript()))
+  templateScript.Execute(w, tArgs)
   templateHTMLBottom.Execute(w, tArgs)
 }
 

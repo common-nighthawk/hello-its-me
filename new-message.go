@@ -17,7 +17,7 @@ func newMessage(w http.ResponseWriter, r *http.Request) {
   receiverUsername, explodeParam := r.FormValue("receiver_username"), r.FormValue("explode")
   receiverUser, found := models.FindUserFromUsername(db, receiverUsername)
 
-  tArgs := templates.Args{StyleSheet: "centered"}
+  tArgs := templates.Args{StyleSheet: "centered", Script: "message-create"}
 
   templateHTMLTop.Execute(w, tArgs)
   templates.WriteBanner(w, "Hello, " + currentUser.Username)
@@ -36,7 +36,7 @@ func newMessage(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "<button id='send' value='%s'>Send to %s</button>", receiverUser.Username, receiverUser.Username)
     fmt.Fprintf(w, "<p id='rec'>recording</p>")
     fmt.Fprintf(w, "<p id='audio-holder'></p>")
-    fmt.Fprint(w, templates.HTMLScript(templates.MsgScript()))
+    templateScript.Execute(w, tArgs)
   } else {
     template, _ := template.ParseFiles("templates/find-user-form.html")
     template.Execute(w, tArgs)

@@ -17,6 +17,7 @@ var messagesDir string = secrets.MessagesDir(env())
 
 var templateHTMLTop, _ = template.ParseFiles("templates/html-top.html")
 var templateHTMLBottom, _ = template.ParseFiles("templates/html-bottom.html")
+var templateScript, _ = template.ParseFiles("templates/script.html")
 var templateErrorMsg, _ = template.ParseFiles("templates/error-message.html")
 
 func init() {

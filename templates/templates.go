@@ -8,6 +8,7 @@ import(
 
 type Args struct {
   StyleSheet string
+  Script string
   ErrorMsg string
   File string
   UUID string
@@ -21,8 +22,4 @@ func WriteBanner(writer io.Writer, bannerTest string) {
   figure.Write(writer, figure.NewFigure(bannerTest, figletFont, false))
   fmt.Fprint(writer, "</pre>")
   fmt.Fprint(writer, "</a>")
-}
-
-func HTMLScript(script string) string {
-  return fmt.Sprintf(`<script>%s</script>`, script)
 }
