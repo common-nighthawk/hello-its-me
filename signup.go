@@ -7,12 +7,10 @@ import (
 )
 
 func signup(w http.ResponseWriter, r *http.Request) {
-  tArgs := templates.Args{"error"}
-  htmlTop, _ := template.ParseFiles("templates/html-top.html")
-  htmlBottom, _ := template.ParseFiles("templates/html-bottom.html")
+  tArgs := templates.Args{StyleSheet: "error"}
   template, _ := template.ParseFiles("templates/signup-form.html")
 
-  htmlTop.Execute(w, tArgs)
-  template.Execute(w, nil)
-  htmlBottom.Execute(w, nil)
+  templateHTMLTop.Execute(w, tArgs)
+  template.Execute(w, tArgs)
+  templateHTMLTop.Execute(w, tArgs)
 }

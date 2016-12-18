@@ -3,7 +3,6 @@ package main
 import(
   "./models"
   "./templates"
-  "fmt"
   "net/http"
   "html/template"
   "time"
@@ -29,15 +28,13 @@ func createSignup(w http.ResponseWriter, r *http.Request) {
   }
 
   if userError {
-    tArgs := templates.Args{"error"}
-    htmlTop, _ := template.ParseFiles("templates/html-top.html")
-    htmlBottom, _ := template.ParseFiles("templates/html-bottom.html")
+    tArgs := templates.Args{StyleSheet: "error", ErrorMsg: msg}
     template, _ := template.ParseFiles("templates/signup-form.html")
 
-    htmlTop.Execute(w, tArgs)
-    fmt.Fprint(w, templates.HTMLError(msg))
-    template.Execute(w, nil)
-    htmlBottom.Execute(w, nil)
+    templateHTMLTop.Execute(w, tArgs)
+    templateErrorMsg.Execute(w, tArgs)
+    template.Execute(w, tArgs)
+    templateHTMLBottom.Execute(w, tArgs)
     return
   }
 

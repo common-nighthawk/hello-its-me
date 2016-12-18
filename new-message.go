@@ -4,8 +4,8 @@ import(
   "./models"
   "./templates"
   "fmt"
-  "html/template"
   "net/http"
+  "html/template"
 )
 
 func newMessage(w http.ResponseWriter, r *http.Request) {
@@ -17,19 +17,18 @@ func newMessage(w http.ResponseWriter, r *http.Request) {
   receiverUsername, explodeParam := r.FormValue("receiver_username"), r.FormValue("explode")
   receiverUser, found := models.FindUserFromUsername(db, receiverUsername)
 
-  tArgs := templates.Args{"centered"}
-  htmlTop, _ := template.ParseFiles("templates/html-top.html")
-  htmlBottom, _ := template.ParseFiles("templates/html-bottom.html")
-
-  htmlTop.Execute(w, tArgs)
+  tArgs := templates.Args{StyleSheet: "centered"}
+  templateHTMLTop.Execute(w, tArgs)
   templates.WriteBanner(w, "Hello, " + currentUser.Username)
   if !found && receiverUsername != "" {
     msg := "There is no user with the username " + receiverUsername
-    fmt.Fprint(w, templates.HTMLError(msg))
+    tArgs.ErrorMsg = msg
+    templateErrorMsg.Execute(w, tArgs)
   }
 
   if found {
-    fmt.Fprint(w, templates.HTMLError("Uh oh. This page is interactive. Please either enable JavaScript or update your web browser."))
+    tArgs.ErrorMsg = "Uh oh. This page is interactive. Please either enable JavaScript or update your web browser."
+    templateErrorMsg.Execute(w, tArgs)
     fmt.Fprintf(w, "<p id='message'>Record your message for %s:</p>", receiverUser.Username)
     fmt.Fprintf(w, "<button id='start' value='%s'>Start</button>", explodeParam)
     fmt.Fprint(w,  "<button id='stop'>Stop</button>")
@@ -40,8 +39,8 @@ func newMessage(w http.ResponseWriter, r *http.Request) {
     fmt.Fprint(w, templates.HTMLScript(templates.MsgScript()))
   } else {
     template, _ := template.ParseFiles("templates/find-user-form.html")
-    template.Execute(w, nil)
+    template.Execute(w, tArgs)
   }
 
-  htmlBottom.Execute(w, nil)
+  templateHTMLBottom.Execute(w, tArgs)
 }

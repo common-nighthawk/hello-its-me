@@ -5,7 +5,6 @@ import(
   "./templates"
   "fmt"
   "net/http"
-  "html/template"
   "time"
 )
 
@@ -20,11 +19,8 @@ func messages(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  tArgs := templates.Args{"centered"}
-  htmlTop, _ := template.ParseFiles("templates/html-top.html")
-  htmlBottom, _ := template.ParseFiles("templates/html-bottom.html")
-
-  htmlTop.Execute(w, tArgs)
+  tArgs := templates.Args{StyleSheet: "centered"}
+  templateHTMLTop.Execute(w, tArgs)
   templates.WriteBanner(w, "Hello, " + currentUser.Username)
 
   messages, err := currentUser.Messages(db)
@@ -44,7 +40,7 @@ func messages(w http.ResponseWriter, r *http.Request) {
   }
 
   fmt.Fprint(w, templates.HTMLScript(templates.ExpireScript()))
-  htmlBottom.Execute(w, nil)
+  templateHTMLBottom.Execute(w, tArgs)
 }
 
 func explodesAt(message *models.Message, location *time.Location) string {

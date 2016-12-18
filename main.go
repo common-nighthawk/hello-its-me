@@ -6,6 +6,7 @@ import (
   "fmt"
   "log"
   "net/http"
+  "html/template"
   "runtime"
   _ "github.com/lib/pq"
 )
@@ -13,6 +14,10 @@ import (
 const dbname = "hello-its-me"
 var db *sql.DB
 var messagesDir string = secrets.MessagesDir(env())
+
+var templateHTMLTop, _ = template.ParseFiles("templates/html-top.html")
+var templateHTMLBottom, _ = template.ParseFiles("templates/html-bottom.html")
+var templateErrorMsg, _ = template.ParseFiles("templates/error-message.html")
 
 func init() {
   var err error

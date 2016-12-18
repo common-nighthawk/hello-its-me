@@ -11,6 +11,7 @@ const figletFont = "puffy"
 
 type Args struct {
   StyleSheet string
+  ErrorMsg string
 }
 
 func WriteBanner(writer io.Writer, bannerTest string) {
@@ -23,10 +24,6 @@ func WriteBanner(writer io.Writer, bannerTest string) {
 
 func HTMLScript(script string) string {
   return fmt.Sprintf(`<script>%s</script>`, script)
-}
-
-func HTMLError(msg string) string {
-  return fmt.Sprintf(`<p class="error">%s</p>`, msg)
 }
 
 func AudioPlayer(user *models.User, msg *models.Message) string {

@@ -4,7 +4,6 @@ import(
   "./models"
   "./templates"
   "fmt"
-  "html/template"
   "net/http"
 )
 
@@ -15,13 +14,10 @@ func actions(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  tArgs := templates.Args{"centered"}
-  htmlTop, _ := template.ParseFiles("templates/html-top.html")
-  htmlBottom, _ := template.ParseFiles("templates/html-bottom.html")
-
-  htmlTop.Execute(w, tArgs)
+  tArgs := templates.Args{StyleSheet: "centered"}
+  templateHTMLTop.Execute(w, tArgs)
   templates.WriteBanner(w, "Hello, " + currentUser.Username)
   fmt.Fprint(w, "<a href=\"/messages\">View My Messages</a>")
   fmt.Fprint(w, "<a href=\"/message_new\">Send A Message</a>")
-  htmlBottom.Execute(w, nil)
+  templateHTMLBottom.Execute(w, tArgs)
 }
