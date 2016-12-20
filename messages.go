@@ -52,6 +52,25 @@ func explodesAt(message *models.Message, location *time.Location) string {
   if message.ExpiresAt.After(time.Now().UTC()) {
     return message.ExpiresAt.In(location).Format(msgTimeFmt)
   }
-  duration := time.Duration(message.ExplodeAfter) * time.Second
-  return fmt.Sprintf("%s after listening", duration)
+  return fmt.Sprintf("%s after listening", displaySeconds(message.ExplodeAfter))
+}
+
+func displaySeconds(seconds int) (phrase string) {
+  var times []map[string]interface{}
+  times = append(times, map[string]interface{}{"unit": "year", "conv": 31536000})
+  times = append(times, map[string]interface{}{"unit": "month", "conv": 2628000})
+  times = append(times, map[string]interface{}{"unit": "week", "conv": 604800})
+  times = append(times, map[string]interface{}{"unit": "day", "conv": 86400})
+  times = append(times, map[string]interface{}{"unit": "hour", "conv": 3660})
+  times = append(times, map[string]interface{}{"unit": "minute", "conv": 60})
+
+  for _, time := range times {
+    time["quan"] = seconds / time["conv"].(int)
+    seconds -= time["quan"].(int) * time["conv"].(int)
+    if time["quan"].(int) > 0 {
+      phrase += fmt.Sprintf(" %d %s", time["quan"], time["unit"])
+      if time["quan"].(int) > 1 { phrase += "s" }
+    }
+  }
+  return phrase
 }
