@@ -61,7 +61,7 @@ func displaySeconds(seconds int) (phrase string) {
   times = append(times, map[string]interface{}{"unit": "month", "conv": 2628000})
   times = append(times, map[string]interface{}{"unit": "week", "conv": 604800})
   times = append(times, map[string]interface{}{"unit": "day", "conv": 86400})
-  times = append(times, map[string]interface{}{"unit": "hour", "conv": 3660})
+  times = append(times, map[string]interface{}{"unit": "hour", "conv": 3600})
   times = append(times, map[string]interface{}{"unit": "minute", "conv": 60})
 
   for _, time := range times {

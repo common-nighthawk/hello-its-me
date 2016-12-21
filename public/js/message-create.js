@@ -34,10 +34,13 @@ stop.onclick = e => {
 }
 
 send.onclick = e => {
+  dismiss.style.display='none'; send.style.display='none'; message.innerHTML = '';
+  var img = document.createElement('img');
+  img.src = 'public/images/spinner.gif';
+  message.appendChild(img);
   var formData = new FormData();
   formData.append('blob', blob);
   postMessage(formData);
-  dismiss.style.display='none'; send.style.display='none';
 }
 
 dismiss.onclick = e => {
