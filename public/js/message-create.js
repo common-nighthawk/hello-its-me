@@ -66,6 +66,12 @@ function setBlob() {
   pa.appendChild(mt);
   ah.appendChild(pa);
   message.innerHTML = 'You can preview your message. Then decide what you wanna do.'
+
+  mt.currentTime = 1e101;
+  mt.ontimeupdate = function() {
+    this.ontimeupdate = ()=>{return;}
+    mt.currentTime = 0;
+  }
 }
 
 function postMessage(formData) {
