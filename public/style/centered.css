@@ -17,6 +17,11 @@ button { margin: 0 5px; }
 p#message { height: 20px; }
 hr { margin: 300px 0 80px 0; }
 
+.message-container { white-space: nowrap; }
+.message, .message-opts { display: inline-block; }
+ul { list-style: none; padding-left: 20px; }
+ul li { text-align: left; }
+
 input[name="receiver_username"], select[name="explode"] {
   margin-bottom:  10px;
 }

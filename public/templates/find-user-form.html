@@ -1,6 +1,6 @@
 <form action="/message_new" method="GET">
   <label for="receiver_username">Username:</label>
-  <input type="text" name="receiver_username"><br/ >
+  <input type="text" name="receiver_username" value="{{.ReceiverUsername}}"><br/ >
   <label for="explode">Explode:</label>
   <select name="explode">
     <option value="60">1 minute from now</option>

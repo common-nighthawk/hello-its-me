@@ -16,7 +16,7 @@ func newMessage(w http.ResponseWriter, r *http.Request) {
   receiverUsername, explodeParam := r.FormValue("receiver_username"), r.FormValue("explode")
   receiverUser, found := models.FindUserFromUsername(db, receiverUsername)
 
-  tArgs := templates.Args{StyleSheet: "centered", Script: "message-create"}
+  tArgs := templates.Args{StyleSheet: "centered", Script: "message-create", ReceiverUsername: receiverUsername}
 
   templateHTMLTop.Execute(w, tArgs)
   templates.WriteBanner(w, "Hello, " + currentUser.Username)
@@ -25,7 +25,7 @@ func newMessage(w http.ResponseWriter, r *http.Request) {
     templateErrorMsg.Execute(w, tArgs)
   }
 
-  if found {
+  if found && explodeParam != "" {
     tArgs.ErrorMsg = "Uh oh. This page is interactive. Please either enable JavaScript or update your web browser."
     templateErrorMsg.Execute(w, tArgs)
     fmt.Fprintf(w, "<p id='message'>Record your message for %s:</p>", receiverUser.Username)
