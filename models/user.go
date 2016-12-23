@@ -44,14 +44,27 @@ func findUserFromRow(row *sql.Row) (*User, bool) {
   return user, true
 }
 
-func (user User) Messages(db *sql.DB) (messages []*Message, err error) {
-  rows, err := db.Query("SELECT * FROM messages WHERE receiver_uuid = $1 ORDER BY created_at DESC", user.UUID)
+func (user User) Messages(db *sql.DB, status string) (messages []*Message, err error) {
+  rows, err := db.Query(messageQuery(status), user.UUID)
   for rows.Next() {
     message := new(Message)
-    err = rows.Scan(&message.SenderUsername, &message.ReceiverUUID, &message.File, &message.ExpiresAt, &message.ExplodeAfter, &message.CreatedAt)
+    err = rows.Scan(&message.SenderUsername, &message.ReceiverUUID, &message.File, &message.ExpiresAt,
+                    &message.ExplodeAfter, &message.CreatedAt, &message.Archived)
     messages = append(messages, message)
   }
   return messages, err
+}
+
+func messageQuery(status string) string {
+  switch status {
+  case "all":
+    return "SELECT * FROM messages WHERE receiver_uuid = $1 ORDER BY created_at DESC"
+  case "active":
+    return "SELECT * FROM messages WHERE receiver_uuid = $1 AND archived = false ORDER BY created_at DESC"
+  case "archived":
+    return "SELECT * FROM messages WHERE receiver_uuid = $1 AND archived = true ORDER BY created_at DESC"
+  }
+  panic("undefined archive criteria for messages")
 }
 
 func (user User) TZLocation() *time.Location {

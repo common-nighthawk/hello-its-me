@@ -13,7 +13,7 @@ func updateMessage(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  messages, err := currentUser.Messages(db)
+  messages, err := currentUser.Messages(db, "all")
   if err != nil {
     http.Error(w, "failed to find messages for user", 500)
     return

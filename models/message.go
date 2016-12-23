@@ -9,4 +9,5 @@ type Message struct {
   ExpiresAt time.Time
   ExplodeAfter int
   CreatedAt time.Time
+  Archived bool
 }
