@@ -49,7 +49,7 @@ func messages(w http.ResponseWriter, r *http.Request) {
     fmt.Fprint(w, "<div class='message-opts'>")
     fmt.Fprint(w, "<ul>")
     fmt.Fprintf(w, "<li><a href='message_update?archive=true&file=%s'>Unarchive</a></li>", message.File)
-    fmt.Fprintf(w, "<li><a href='message_destroy?file=%s onclick='return confirm(%q);'>Delete</a></li>", message.File, templates.ConfirmDelete)
+    fmt.Fprintf(w, "<li><a href='message_destroy?file=%s' onclick='return confirm(%q);'>Delete</a></li>", message.File, templates.ConfirmDelete)
     fmt.Fprint(w, "</div></div>")
   }
 
