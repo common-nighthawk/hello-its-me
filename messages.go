@@ -39,7 +39,7 @@ func messages(w http.ResponseWriter, r *http.Request) {
     fmt.Fprint(w, "<ul>")
     fmt.Fprintf(w, "<li><a href='message_new?receiver_username=%s'>Reply</a></li>", message.SenderUsername)
     fmt.Fprintf(w, "<li><a href='message_update?archive=true&file=%s'>Archive</a></li>", message.File)
-    fmt.Fprint(w, "<li><a href='destroy-message'>Delete</a></li>")
+    fmt.Fprintf(w, "<li><a href='message_destroy?file=%s' onclick='return confirm(%q);'>Delete</a></li>", message.File, templates.ConfirmDelete)
     fmt.Fprint(w, "</div></div>")
   }
   for i, message  := range archivedMessages {
@@ -49,7 +49,7 @@ func messages(w http.ResponseWriter, r *http.Request) {
     fmt.Fprint(w, "<div class='message-opts'>")
     fmt.Fprint(w, "<ul>")
     fmt.Fprintf(w, "<li><a href='message_update?archive=true&file=%s'>Unarchive</a></li>", message.File)
-    fmt.Fprint(w, "<li><a href='destroy-message'>Delete</a></li>")
+    fmt.Fprintf(w, "<li><a href='message_destroy?file=%s onclick='return confirm(%q);'>Delete</a></li>", message.File, templates.ConfirmDelete)
     fmt.Fprint(w, "</div></div>")
   }
 

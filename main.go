@@ -41,6 +41,7 @@ func main() {
   http.HandleFunc("/message_new", newMessage)
   http.HandleFunc("/message", message)
   http.HandleFunc("/message_update", updateMessage)
+  http.HandleFunc("/message_destroy", destroyMessage)
   http.HandleFunc("/messages", messages)
   http.HandleFunc("/assets/", assets)
 

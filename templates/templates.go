@@ -15,7 +15,10 @@ type Args struct {
   ReceiverUsername string
 }
 
-const figletFont = "puffy"
+const(
+  figletFont = "puffy"
+  ConfirmDelete = "Are you sure you want to delete this message? The action cannot be undone."
+)
 
 func WriteBanner(writer io.Writer, bannerTest string) {
   fmt.Fprint(writer, "<a class=\"figlet\" href=\"/actions\">")
