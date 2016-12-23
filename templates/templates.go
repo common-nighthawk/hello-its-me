@@ -12,6 +12,7 @@ type Args struct {
   ErrorMsg string
   File string
   UUID string
+  ReceiverUsername string
 }
 
 const figletFont = "puffy"

@@ -3,7 +3,6 @@ package main
 import(
   "./models"
   "net/http"
-  "time"
 )
 
 func updateMessage(w http.ResponseWriter, r *http.Request) {
@@ -25,15 +24,19 @@ func updateMessage(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  if message.ExpiresAt.Before(time.Now().UTC()) {
-    expiresAt := time.Now().UTC().Add(time.Duration(message.ExplodeAfter) * time.Second)
-    dbStatement, _ := db.Prepare("UPDATE messages SET expires_at=$1 WHERE receiver_uuid=$2 AND file=$3")
-    _, err = dbStatement.Exec(expiresAt, currentUser.UUID, message.File)
+  if r.FormValue("expire") != "" {
+    err = message.SetExpiresAt(db, currentUser)
+  }
+
+  if r.FormValue("archive") != "" {
+    err = message.Archive(db, currentUser)
   }
 
   if err != nil {
     http.Error(w, "failed to update expires_at", 500)
   }
+
+  http.Redirect(w, r, "/messages", http.StatusFound)
 }
 
 func findMessage(file string, messages []*models.Message) (*models.Message, bool) {

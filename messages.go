@@ -38,13 +38,19 @@ func messages(w http.ResponseWriter, r *http.Request) {
     fmt.Fprint(w, "<div class='message-opts'>")
     fmt.Fprint(w, "<ul>")
     fmt.Fprintf(w, "<li><a href='message_new?receiver_username=%s'>Reply</a></li>", message.SenderUsername)
-    fmt.Fprint(w, "<li><a href='foo'>Archive</a></li>")
-    fmt.Fprint(w, "<li><a href='foo'>Delete</a></li>")
+    fmt.Fprintf(w, "<li><a href='message_update?archive=true&file=%s'>Archive</a></li>", message.File)
+    fmt.Fprint(w, "<li><a href='destroy-message'>Delete</a></li>")
     fmt.Fprint(w, "</div></div>")
   }
   for i, message  := range archivedMessages {
     if i == 0 { fmt.Fprint(w, "<hr>") }
+    fmt.Fprint(w, "<div class='message-container'>")
     writeMessage(w, message, currentUser)
+    fmt.Fprint(w, "<div class='message-opts'>")
+    fmt.Fprint(w, "<ul>")
+    fmt.Fprintf(w, "<li><a href='message_update?archive=true&file=%s'>Unarchive</a></li>", message.File)
+    fmt.Fprint(w, "<li><a href='destroy-message'>Delete</a></li>")
+    fmt.Fprint(w, "</div></div>")
   }
 
   templateScript.Execute(w, tArgs)
