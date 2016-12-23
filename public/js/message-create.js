@@ -35,9 +35,7 @@ stop.onclick = e => {
 
 send.onclick = e => {
   dismiss.style.display='none'; send.style.display='none'; message.innerHTML = '';
-  var img = document.createElement('img');
-  img.src = 'public/images/spinner.gif';
-  message.appendChild(img);
+  message.style.backgroundSize = 'initial';
   var formData = new FormData();
   formData.append('blob', blob);
   postMessage(formData);
@@ -80,6 +78,7 @@ function postMessage(formData) {
   xhr.open('POST', postURL, true);
   xhr.send(formData);
   xhr.onload = function() {
+    message.style.backgroundSize = '0';
     if (xhr.status == 200) {
       message.innerHTML = 'Your message was successfully sent!'
     } else {

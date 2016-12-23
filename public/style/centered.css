@@ -14,7 +14,14 @@ button { margin: 0 5px; }
 
 .message { margin-bottom: 20px; }
 .message span { font-size: 0.75em; }
-p#message { height: 20px; }
+
+p#message {
+  height: 20px;
+  background-image: url("../images/spinner.gif");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 0;
+}
 hr { margin: 300px 0 80px 0; }
 
 .message-container { white-space: nowrap; }
