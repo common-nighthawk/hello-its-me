@@ -56,6 +56,10 @@ func message(w http.ResponseWriter, r *http.Request) {
     http.Error(w, "failed adding message to database", 500)
     return
   }
+
+  if err = receiverUser.Notify(); err != nil {
+    fmt.Println("failed sending notification email")
+  }
 }
 
 func fileDir(user *models.User) string {

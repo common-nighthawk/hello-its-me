@@ -17,7 +17,7 @@ func createLogin(w http.ResponseWriter, r *http.Request) {
   row := db.QueryRow("SELECT * FROM users WHERE username = $1", username)
 
   user := new(models.User)
-  err = row.Scan(&user.Username, &user.Password, &user.UUID, &user.Timezone)
+  err = row.Scan(&user.Username, &user.Password, &user.UUID, &user.Timezone, &user.Email)
 
   userError, msg := false, ""
   if err == sql.ErrNoRows {

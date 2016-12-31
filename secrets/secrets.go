@@ -4,6 +4,8 @@ const(
   DBPassword = "HA!YOUWISH"
   SSLCert = "/home/ubuntu/.ssl/cert.pem"
   SSLKey = "/home/ubuntu/.ssl/key.pem"
+  Email = "helloitsmewebsite@gmail.com"
+  SMTPPassword = "HA!YOUWISH"
 )
 
 func PublicDir(env string) string {

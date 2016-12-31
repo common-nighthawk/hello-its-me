@@ -1,10 +1,13 @@
 package models
 
 import(
+  "../secrets"
   "crypto/rand"
   "encoding/base64"
   "database/sql"
+  "fmt"
   "net/http"
+  "net/smtp"
   "time"
 )
 
@@ -13,6 +16,7 @@ type User struct {
   Password string
   UUID string
   Timezone string
+  Email string
 }
 
 func FindCurrentUser(cookies []*http.Cookie, db *sql.DB) (*User, bool) {
@@ -37,7 +41,7 @@ func FindUserFromUUID(db *sql.DB, uuid string) (*User, bool) {
 
 func findUserFromRow(row *sql.Row) (*User, bool) {
   user := new(User)
-  err := row.Scan(&user.Username, &user.Password, &user.UUID, &user.Timezone)
+  err := row.Scan(&user.Username, &user.Password, &user.UUID, &user.Timezone, &user.Email)
   if err != nil {
     return nil, false
   }
@@ -82,4 +86,12 @@ func GenerateUUID() (string, error) {
     return "", err
   }
   return base64.URLEncoding.EncodeToString(b), nil
+}
+
+func (user User) Notify() error {
+  auth := smtp.PlainAuth("", secrets.Email, secrets.SMTPPassword, "smtp.gmail.com")
+  subject := "New Message on 'Hello, Its Me'"
+  text := "You have a new message! Check it out at helloitsme.site"
+  message := fmt.Sprintf("From: %s\nTo: %s\nSubject: %s\n\n%s", secrets.Email, user.Email, subject, text)
+  return smtp.SendMail("smtp.gmail.com:587", auth, "helloitsmewebsite@gmail.com", []string{user.Email}, []byte(message))
 }
