@@ -89,6 +89,9 @@ func GenerateUUID() (string, error) {
 }
 
 func (user User) Notify() error {
+  if user.Email == "" {
+    return nil
+  }
   auth := smtp.PlainAuth("", secrets.Email, secrets.SMTPPassword, "smtp.gmail.com")
   subject := "New Message on 'Hello, Its Me'"
   text := "You have a new message! Check it out at helloitsme.site"
