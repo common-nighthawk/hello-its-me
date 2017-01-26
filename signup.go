@@ -11,5 +11,5 @@ func signup(w http.ResponseWriter, r *http.Request) {
 
   templateHTMLTop.Execute(w, tArgs)
   template.Execute(w, tArgs)
-  templateHTMLTop.Execute(w, tArgs)
+  templateHTMLBottom.Execute(w, tArgs)
 }

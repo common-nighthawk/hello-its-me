@@ -12,6 +12,8 @@ type Args struct {
   ErrorMsg string
   File string
   UUID string
+  Email string
+  Timezone string
   ReceiverUsername string
 }
 

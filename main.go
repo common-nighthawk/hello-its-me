@@ -37,6 +37,8 @@ func main() {
   http.HandleFunc("/login", login)
   http.HandleFunc("/login_create", createLogin)
   http.HandleFunc("/logout", logout)
+  http.HandleFunc("/profile", profile)
+  http.HandleFunc("/profile_update", updateProfile)
   http.HandleFunc("/actions", actions)
   http.HandleFunc("/message_new", newMessage)
   http.HandleFunc("/message", message)
