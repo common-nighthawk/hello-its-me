@@ -1,11 +1,11 @@
 package secrets
 
 const(
-  DBPassword = "HA!YOUWISH"
+  DBPassword = "1HA!YOUWISH"
   SSLCert = "/home/ubuntu/.ssl/cert.pem"
   SSLKey = "/home/ubuntu/.ssl/key.pem"
   Email = "helloitsmewebsite@gmail.com"
-  SMTPPassword = "HA!YOUWISH"
+  SMTPPassword = "2HA!YOUWISH"
 )
 
 func PublicDir(env string) string {
