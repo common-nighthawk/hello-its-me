@@ -19,10 +19,11 @@ func messages(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  tArgs := templates.Args{StyleSheet: "centered", Script: "message-expire", UUID: currentUser.UUID}
+  tArgs := templates.Args{StyleSheet: "list", Script: "message-expire", UUID: currentUser.UUID}
 
   templateHTMLTop.Execute(w, tArgs)
-  templates.WriteBanner(w, "Hello, " + currentUser.Username)
+  fmt.Fprintf(w, "<div class='figletx'><a class='figlet' href='/'>Hello, %s</a></div>", currentUser.Username)
+  //templates.WriteBanner(w, "Hello, " + currentUser.Username)
 
   activeMessages, err := currentUser.Messages(db, "active")
   archivedMessages, err := currentUser.Messages(db, "archived")
@@ -37,9 +38,9 @@ func messages(w http.ResponseWriter, r *http.Request) {
     writeMessage(w, message, currentUser)
     fmt.Fprint(w, "<div class='message-opts'>")
     fmt.Fprint(w, "<ul>")
-    fmt.Fprintf(w, "<li><a href='message_new?receiver_username=%s'>Reply</a></li>", message.SenderUsername)
-    fmt.Fprintf(w, "<li><a href='message_update?archive=true&file=%s'>Archive</a></li>", message.File)
-    fmt.Fprintf(w, "<li><a href='message_destroy?file=%s' onclick='return confirm(%q);'>Delete</a></li>", message.File, templates.ConfirmDelete)
+    fmt.Fprintf(w, "<li class='reply'><a href='message_new?receiver_username=%s'>Reply</a></li>", message.SenderUsername)
+    fmt.Fprintf(w, "<li class='archive'><a href='message_update?archive=true&file=%s'>Archive</a></li>", message.File)
+    fmt.Fprintf(w, "<li class='delete'><a href='message_destroy?file=%s' onclick='return confirm(%q);'>Delete</a></li>", message.File, templates.ConfirmDelete)
     fmt.Fprint(w, "</div></div>")
   }
   for i, message  := range archivedMessages {
@@ -48,8 +49,8 @@ func messages(w http.ResponseWriter, r *http.Request) {
     writeMessage(w, message, currentUser)
     fmt.Fprint(w, "<div class='message-opts'>")
     fmt.Fprint(w, "<ul>")
-    fmt.Fprintf(w, "<li><a href='message_update?archive=true&file=%s'>Unarchive</a></li>", message.File)
-    fmt.Fprintf(w, "<li><a href='message_destroy?file=%s' onclick='return confirm(%q);'>Delete</a></li>", message.File, templates.ConfirmDelete)
+    fmt.Fprintf(w, "<li class='archive'><a href='message_update?archive=true&file=%s'>Unarchive</a></li>", message.File)
+    fmt.Fprintf(w, "<li class='delete'><a href='message_destroy?file=%s' onclick='return confirm(%q);'>Delete</a></li>", message.File, templates.ConfirmDelete)
     fmt.Fprint(w, "</div></div>")
   }
 
@@ -59,7 +60,7 @@ func messages(w http.ResponseWriter, r *http.Request) {
 
 func writeMessage(w http.ResponseWriter, message *models.Message, currentUser *models.User) {
   fmt.Fprint(w, "<div class='message'>")
-  fmt.Fprint(w, "From: ", message.SenderUsername, "<br>")
+  fmt.Fprint(w, "<div class='from'>From: ", message.SenderUsername, "</div>")
 
   tArgs := templates.Args{UUID: currentUser.UUID, File: message.File}
   template := findTemplate("audio-player")
