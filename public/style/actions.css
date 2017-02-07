@@ -1,0 +1,36 @@
+body {
+	text-align: center;
+	font-family: 'Open Sans Condensed', sans-serif;
+	background-color: #e8efe8;
+	color: #8391ae;
+}
+
+.banner {
+  margin: 24px 0 40px;
+}
+
+.banner a {
+	margin: 0;
+	text-decoration: none;
+	color: inherit;
+	font-family: 'Josefin Slab', serif;
+	font-size: 56px;
+}
+
+.view, .send {
+	display: inline;
+	border-radius: 6px;
+	padding: 5px 0;
+	margin: 0 16px;
+}
+
+.view a, .send a{
+	text-decoration: none;
+	margin: 14px;
+}
+
+.view { border: 1px dashed #3D3936; }
+.view a { color: #3D3936; }
+
+.send { border: 1px dashed #8e4e1e; }
+.send a { color: #8e4e1e; }

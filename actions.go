@@ -14,11 +14,11 @@ func actions(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  tArgs := templates.Args{StyleSheet: "centered"}
-  
+  tArgs := templates.Args{StyleSheet: "actions"}
+
   templateHTMLTop.Execute(w, tArgs)
-  templates.WriteFigletBanner(w, "Hello, " + currentUser.Username)
-  fmt.Fprint(w, "<a href=\"/messages\">View My Messages</a>")
-  fmt.Fprint(w, "<a href=\"/message_new\">Send A Message</a>")
+  templates.WriteTextBanner(w, "Hello, " + currentUser.Username)
+  fmt.Fprint(w, "<div class='view'><a href='/messages'>View My Messages</a></div>")
+  fmt.Fprint(w, "<div class='send'><a href='/message_new'>Send A Message</a></div>")
   templateHTMLBottom.Execute(w, tArgs)
 }
