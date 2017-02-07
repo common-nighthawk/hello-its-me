@@ -19,11 +19,10 @@ func messages(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  tArgs := templates.Args{StyleSheet: "list", Script: "message-expire", UUID: currentUser.UUID}
+  tArgs := templates.Args{StyleSheet: "messages", Script: "message-expire", UUID: currentUser.UUID}
 
   templateHTMLTop.Execute(w, tArgs)
-  fmt.Fprintf(w, "<div class='figletx'><a class='figlet' href='/'>Hello, %s</a></div>", currentUser.Username)
-  //templates.WriteBanner(w, "Hello, " + currentUser.Username)
+  templates.WriteTextBanner(w, "Hello, " + currentUser.Username)
 
   activeMessages, err := currentUser.Messages(db, "active")
   archivedMessages, err := currentUser.Messages(db, "archived")
@@ -31,45 +30,51 @@ func messages(w http.ResponseWriter, r *http.Request) {
     http.Error(w, "failed finding messages of current user", 500)
     return
   }
-  fmt.Fprintf(w, "You currently have %d messages. <br><br>", len(activeMessages))
+  fmt.Fprintf(w, "<p>You currently have <span>%d</span> messages&mdash;</p>", len(activeMessages))
 
   for _, message  := range activeMessages {
     fmt.Fprint(w, "<div class='message-container'>")
+    writeMsgFrom(w, message)
     writeMessage(w, message, currentUser)
-    fmt.Fprint(w, "<div class='message-opts'>")
-    fmt.Fprint(w, "<ul>")
-    fmt.Fprintf(w, "<li class='reply'><a href='message_new?receiver_username=%s'>Reply</a></li>", message.SenderUsername)
-    fmt.Fprintf(w, "<li class='archive'><a href='message_update?archive=true&file=%s'>Archive</a></li>", message.File)
-    fmt.Fprintf(w, "<li class='delete'><a href='message_destroy?file=%s' onclick='return confirm(%q);'>Delete</a></li>", message.File, templates.ConfirmDelete)
-    fmt.Fprint(w, "</div></div>")
+    writeMsgOpts(w, message, "Archive")
+    fmt.Fprint(w, "</div>")
   }
   for i, message  := range archivedMessages {
     if i == 0 { fmt.Fprint(w, "<hr>") }
-    fmt.Fprint(w, "<div class='message-container'>")
+    fmt.Fprint(w, "<div class='message-container archived'>")
+    writeMsgFrom(w, message)
     writeMessage(w, message, currentUser)
-    fmt.Fprint(w, "<div class='message-opts'>")
-    fmt.Fprint(w, "<ul>")
-    fmt.Fprintf(w, "<li class='archive'><a href='message_update?archive=true&file=%s'>Unarchive</a></li>", message.File)
-    fmt.Fprintf(w, "<li class='delete'><a href='message_destroy?file=%s' onclick='return confirm(%q);'>Delete</a></li>", message.File, templates.ConfirmDelete)
-    fmt.Fprint(w, "</div></div>")
+    writeMsgOpts(w, message, "Unarchive")
+    fmt.Fprint(w, "</div>")
   }
 
   templateScript.Execute(w, tArgs)
   templateHTMLBottom.Execute(w, tArgs)
 }
 
+func writeMsgFrom(w http.ResponseWriter, message *models.Message) {
+  fmt.Fprint(w, "<div class='message-from'><span>From:</span> ", message.SenderUsername, "</div>")
+}
+
+func writeMsgOpts(w http.ResponseWriter, message *models.Message, archiveText string) {
+  fmt.Fprint(w, "<div class='message-opts'><ul>")
+  fmt.Fprintf(w, "<li class='reply'><a href='message_new?receiver_username=%s'>Reply</a></li>", message.SenderUsername)
+  fmt.Fprintf(w, "<li class='archive'><a href='message_update?archive=true&file=%s'>%s</a></li>", message.File, archiveText)
+  fmt.Fprintf(w, "<li class='delete'><a href='message_destroy?file=%s' onclick='return confirm(%q);'>Delete</a></li>", message.File, templates.ConfirmDelete)
+  fmt.Fprint(w, "</ul></div>")
+}
+
 func writeMessage(w http.ResponseWriter, message *models.Message, currentUser *models.User) {
   fmt.Fprint(w, "<div class='message'>")
-  fmt.Fprint(w, "<div class='from'>From: ", message.SenderUsername, "</div>")
 
   tArgs := templates.Args{UUID: currentUser.UUID, File: message.File}
   template := findTemplate("audio-player")
   template.Execute(w, tArgs)
 
-  fmt.Fprint(w, "<span>")
+  fmt.Fprint(w, "<div class='message-details'>")
   fmt.Fprint(w, "Sent: ", message.CreatedAt.In(currentUser.TZLocation()).Format(msgTimeFmt), " | ")
-  fmt.Fprint(w, "Explodes: ", explodesAt(message, currentUser.TZLocation()), "<br>")
-  fmt.Fprint(w, "</span></div>")
+  fmt.Fprint(w, "<span>Explodes:</span> ", explodesAt(message, currentUser.TZLocation()), "<br>")
+  fmt.Fprint(w, "</div></div>")
 }
 
 func explodesAt(message *models.Message, location *time.Location) string {

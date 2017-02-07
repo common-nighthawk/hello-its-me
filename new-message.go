@@ -19,7 +19,7 @@ func newMessage(w http.ResponseWriter, r *http.Request) {
   tArgs := templates.Args{StyleSheet: "centered", Script: "message-create", ReceiverUsername: receiverUsername}
 
   templateHTMLTop.Execute(w, tArgs)
-  templates.WriteBanner(w, "Hello, " + currentUser.Username)
+  templates.WriteFigletBanner(w, "Hello, " + currentUser.Username)
   if !found && receiverUsername != "" {
     tArgs.ErrorMsg = "There is no user with the username " + receiverUsername
     templateErrorMsg.Execute(w, tArgs)

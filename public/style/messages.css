@@ -1,0 +1,107 @@
+body {
+	text-align: center;
+	font-family: 'Open Sans Condensed', sans-serif;
+	background-color: #2B314F;
+	color: #FFFDE6;
+}
+
+.banner {
+  margin: 24px 0 40px;
+}
+
+.banner a {
+	margin: 0;
+	text-decoration: none;
+	color: inherit;
+	font-family: 'Josefin Slab', serif;
+	font-size: 56px;
+}
+
+p {
+  margin-bottom: 36px;
+}
+
+p span {
+  color: gold;
+}
+
+.message-container {
+	width: 1200;
+	margin: 0 auto 50px;
+	white-space: nowrap;
+}
+
+.message-container.archived .reply {
+  visibility: hidden;
+}
+
+.message-from, .message, .message-opts {
+  display: inline-block;
+  width: 365px;
+  vertical-align: top;
+}
+
+.message-from {
+	font-family: 'Josefin Slab', serif;
+}
+
+.message-from span {
+  color: gold;
+}
+
+.message-details {
+  font-size: 0.85em;
+}
+
+.message span {
+  color: gold;
+}
+
+.message audio {
+	width: 365px;
+}
+
+.message-opts ul {
+  margin-top: 5px;
+  list-style: none;
+  padding-left: 20px;
+}
+
+.message-opts ul li {
+  text-align: left;
+}
+
+
+.message-opts ul li {
+	display: inline;
+	border-radius: 6px;
+	padding: 5px 0;
+	margin-right: 10px;
+}
+
+.message-opts a {
+	text-decoration: none;
+	margin: 14px;
+}
+
+.reply { border: 1px dashed mintcream; }
+.reply a { color: mintcream; }
+
+.archive { border: 1px dashed slategrey ; }
+.archive a { color: slategrey; }
+
+.delete { border: 1px dashed rosybrown; }
+.delete a { color: rosybrown; }
+
+hr { margin: 300px 0 80px; }
+
+@media (max-width: 1020px) {
+  .message-from, .message, .message-opts {
+    display: block;
+    margin: auto;
+  }
+
+  .message-from { margin-bottom: 16px; }
+  .message { margin-bottom: 26px; }
+  .message-opts { margin-bottom: 68px; }
+}

@@ -16,7 +16,7 @@ func landing(w http.ResponseWriter, r *http.Request) {
   tArgs := templates.Args{StyleSheet: "centered"}
   
   templateHTMLTop.Execute(w, tArgs)
-  templates.WriteBanner(w, "Hello, It's Me")
+  templates.WriteFigletBanner(w, "Hello, It's Me")
   fmt.Fprint(w, "<a href=\"/login\">Log In</a>")
   fmt.Fprint(w, "<a href=\"/signup\">Sign Up</a>")
   templateHTMLBottom.Execute(w, tArgs)

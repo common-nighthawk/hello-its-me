@@ -17,7 +17,7 @@ func actions(w http.ResponseWriter, r *http.Request) {
   tArgs := templates.Args{StyleSheet: "centered"}
   
   templateHTMLTop.Execute(w, tArgs)
-  templates.WriteBanner(w, "Hello, " + currentUser.Username)
+  templates.WriteFigletBanner(w, "Hello, " + currentUser.Username)
   fmt.Fprint(w, "<a href=\"/messages\">View My Messages</a>")
   fmt.Fprint(w, "<a href=\"/message_new\">Send A Message</a>")
   templateHTMLBottom.Execute(w, tArgs)
