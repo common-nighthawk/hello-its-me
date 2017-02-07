@@ -93,7 +93,11 @@ p span {
 .delete { border: 1px dashed rosybrown; }
 .delete a { color: rosybrown; }
 
-hr { margin: 300px 0 80px; }
+hr { 
+  margin: 300px 0 80px;
+  border: none;
+  border-bottom: 1px dashed #FFFDE6;
+}
 
 @media (max-width: 1020px) {
   .message-from, .message, .message-opts {

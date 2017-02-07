@@ -1,0 +1,36 @@
+body {
+	text-align: center;
+	font-family: 'Open Sans Condensed', sans-serif;
+	background-color: #EE6A5B;
+	color: snow;
+}
+
+.banner {
+  margin: 24px 0 40px;
+}
+
+.banner a {
+	margin: 0;
+	text-decoration: none;
+	color: inherit;
+	font-family: 'Josefin Slab', serif;
+	font-size: 56px;
+}
+
+.log-in, .sign-up {
+	display: inline;
+	border-radius: 6px;
+	padding: 5px 20px;
+	margin: 0 24px
+}
+
+.log-in a, .sign-up a{
+	text-decoration: none;
+	margin: 14px;
+}
+
+.sign-up { border: 1px dashed #151515; }
+.sign-up a { color: #151515; }
+
+.log-in { border: 1px dashed #337ab7; }
+.log-in a { color: #337ab7; }
