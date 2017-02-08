@@ -18,19 +18,18 @@ body {
 }
 
 .view, .send {
-	display: inline;
-	border-radius: 6px;
-	padding: 5px 0;
-	margin: 0 16px;
-}
-
-.view a, .send a{
 	text-decoration: none;
+	border-radius: 6px;
+	padding: 5px 16px;
 	margin: 14px;
 }
 
-.view { border: 1px dashed #3D3936; }
-.view a { color: #3D3936; }
+.view {
+  border: 1px dashed #3D3936;
+  color: #3D3936;
+}
 
-.send { border: 1px dashed #8e4e1e; }
-.send a { color: #8e4e1e; }
+.send {
+  border: 1px dashed #8e4e1e;
+  color: #8e4e1e;
+}
