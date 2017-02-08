@@ -80,10 +80,12 @@ function postMessage(formData) {
   xhr.onload = function() {
     message.style.backgroundSize = '0';
     if (xhr.status == 200) {
-      message.innerHTML = 'Your message was successfully sent!'
+      message.style.color = 'darkgreen';
+      message.innerHTML = 'Your message was successfully sent!';
     } else {
-      message.innerHTML = ''
-      error.innerHTML = 'Oops. There was an error sending your message. Bleh--I\'m sorry :('
+      message.style.color = 'orangered';
+      message.innerHTML = '';
+      error.innerHTML = 'Oops. There was an error sending your message. Bleh--I\'m sorry :(';
     }
   }
 }
