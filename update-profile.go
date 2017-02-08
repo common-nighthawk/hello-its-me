@@ -15,6 +15,7 @@ func updateProfile(w http.ResponseWriter, r *http.Request) {
   err := r.ParseForm()
   email, timezone := r.FormValue("email"), r.FormValue("timezone")
 
+  // TODO: validate email is unique
   result, err := db.Exec("UPDATE users SET email=$1, timezone=$2 WHERE uuid=$3", email, timezone, currentUser.UUID)
   _, err = result.RowsAffected()
 

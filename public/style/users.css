@@ -1,0 +1,65 @@
+body {
+	text-align: center;
+	font-family: 'Open Sans Condensed', sans-serif;
+	background-color: #383D43;
+	color: slategrey;
+}
+
+.banner {
+  margin: 24px 0 40px;
+}
+
+.banner a {
+	margin: 0;
+	text-decoration: none;
+	color: inherit;
+	font-family: 'Josefin Slab', serif;
+	font-size: 56px;
+}
+
+p.error {
+  color: gold;
+  display: block;
+  text-align: center;
+  margin: -20px 0 18px;
+}
+
+form {
+  display: table;
+  margin: auto;
+}
+
+p {
+  display: table-row;
+  margin-bottom: 20px;
+}
+
+label {
+  display: table-cell;
+  padding-right: 12px;
+  text-align: left;
+}
+
+input[type="text"], input[type="password"], input[type="email"], select {
+  display: table-cell;
+  padding: 3px;
+  margin-bottom: 4px;
+  border: solid 1px #E5E5E5;
+  width: 160px;
+}
+
+select {
+  width: 168px;
+}
+
+input[type="submit"] {
+  float: left;
+	padding: 5px 20px;
+  margin-top: 24px;
+  border: 1px dashed orangered;
+	border-radius: 6px;
+  background-color: transparent;
+  color: orangered;
+	font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 0.85em;
+}

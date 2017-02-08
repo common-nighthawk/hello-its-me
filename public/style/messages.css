@@ -93,7 +93,7 @@ p span {
 .delete { border: 1px dashed rosybrown; }
 .delete a { color: rosybrown; }
 
-hr { 
+hr {
   margin: 300px 0 80px;
   border: none;
   border-bottom: 1px dashed #FFFDE6;

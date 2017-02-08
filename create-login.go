@@ -27,10 +27,11 @@ func createLogin(w http.ResponseWriter, r *http.Request) {
   }
 
   if userError {
-    tArgs := templates.Args{StyleSheet: "left", ErrorMsg: msg}
+    tArgs := templates.Args{StyleSheet: "users", ErrorMsg: msg}
     template := findTemplate("login-form")
 
     templateHTMLTop.Execute(w, tArgs)
+    templates.WriteTextBanner(w, "Hello, It's Me")
     templateErrorMsg.Execute(w, tArgs)
     template.Execute(w, tArgs)
     templateHTMLBottom.Execute(w, tArgs)

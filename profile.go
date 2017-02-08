@@ -13,10 +13,11 @@ func profile(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  tArgs := templates.Args{StyleSheet: "left", Email: currentUser.Email, Timezone: currentUser.Timezone}
+  tArgs := templates.Args{StyleSheet: "users", Email: currentUser.Email, Timezone: currentUser.Timezone}
   template := findTemplate("profile-form")
 
   templateHTMLTop.Execute(w, tArgs)
+  templates.WriteTextBanner(w, "Hello, " + currentUser.Username)
   template.Execute(w, tArgs)
   templateHTMLTop.Execute(w, tArgs)
 }

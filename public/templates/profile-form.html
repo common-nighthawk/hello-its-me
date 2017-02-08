@@ -1,15 +1,19 @@
 <form action="/profile_update" method="POST">
-  <label for="email">Email:</label>
-  <input type="email" name="email" value={{.Email}}><br/ >
-  <label for="timezone">Timezone:</label>
-  <select name="timezone">
-      <option value="US/Eastern" {{if eq .Timezone "US/Eastern"}}selected{{end}}>US Eastern</option>
-      <option value="US/Central" {{if eq .Timezone "US/Central"}}selected{{end}}>US Central</option>
-      <option value="US/Mountain" {{if eq .Timezone "US/Mountain"}}selected{{end}}>US Mountain</option>
-      <option value="US/Pacific" {{if eq .Timezone "US/Pacific"}}selected{{end}}>US Pacific</option>
-      <option value="US/Alaska" {{if eq .Timezone "US/Alaska"}}selected{{end}}>US Alaska</option>
-      <option value="US/Hawaii" {{if eq .Timezone "US/Hawaii"}}selected{{end}}>US Hawaii</option>
-      <option value="UTC" {{if eq .Timezone "UTC"}}selected{{end}}>Coordinated Universal Time (UTC)</option>
-  </select><br />
+  <p>
+    <label for="email">Email:</label>
+    <input type="email" name="email" value={{.Email}}><br/ >
+  </p>
+  <p>
+    <label for="timezone">Timezone:</label>
+    <select name="timezone">
+        <option value="US/Eastern" {{if eq .Timezone "US/Eastern"}}selected{{end}}>US Eastern</option>
+        <option value="US/Central" {{if eq .Timezone "US/Central"}}selected{{end}}>US Central</option>
+        <option value="US/Mountain" {{if eq .Timezone "US/Mountain"}}selected{{end}}>US Mountain</option>
+        <option value="US/Pacific" {{if eq .Timezone "US/Pacific"}}selected{{end}}>US Pacific</option>
+        <option value="US/Alaska" {{if eq .Timezone "US/Alaska"}}selected{{end}}>US Alaska</option>
+        <option value="US/Hawaii" {{if eq .Timezone "US/Hawaii"}}selected{{end}}>US Hawaii</option>
+        <option value="UTC" {{if eq .Timezone "UTC"}}selected{{end}}>Coordinated Universal Time (UTC)</option>
+    </select>
+  </p>
   <input type="submit" value="Update">
 </form>
