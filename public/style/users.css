@@ -53,6 +53,7 @@ select {
 }
 
 input[type="submit"] {
+  cursor: pointer;
   float: left;
 	padding: 5px 20px;
   margin-top: 24px;

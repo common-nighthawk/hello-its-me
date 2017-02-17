@@ -94,7 +94,7 @@ func (user User) Notify() error {
   }
   auth := smtp.PlainAuth("", secrets.Email, secrets.SMTPPassword, "smtp.gmail.com")
   subject := "New Message on 'Hello, Its Me'"
-  text := "You have a new message! Check it out at helloitsme.site"
+  text := fmt.Sprintf("Hello %s,\n\nYou have a new message! Check it out at helloitsme.site/", user.Username)
   message := fmt.Sprintf("From: %s\nTo: %s\nSubject: %s\n\n%s", secrets.Email, user.Email, subject, text)
   return smtp.SendMail("smtp.gmail.com:587", auth, "helloitsmewebsite@gmail.com", []string{user.Email}, []byte(message))
 }
