@@ -2,8 +2,8 @@ package secrets
 
 const(
   DBPassword = "1HA!YOUWISH"
-  SSLCert = "/home/ubuntu/.ssl/cert.pem"
-  SSLKey = "/home/ubuntu/.ssl/key.pem"
+  SSLCert = "/etc/letsencrypt/live/helloitsme.site/fullchain.pem"
+  SSLKey = "/etc/letsencrypt/live/helloitsme.site/privkey.pem"
   Email = "helloitsmewebsite@gmail.com"
   SMTPPassword = "2HA!YOUWISH"
 )
